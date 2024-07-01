@@ -1,7 +1,7 @@
 import scala.collection.mutable
 
 object GraphExample {
-    case class Edge(to: Int)
+    case class Edge(to: Int, weight: Int)
     case class Node(id: Int, edges: List[Edge])
     case class GraphInformations(name: String, isWeighted: Boolean, isBidirectional: Boolean)
     case class Graph(graphInformations: GraphInformations, nodes: List[Node])
@@ -13,11 +13,11 @@ object GraphExample {
             isBidirectional = false
         ),
         nodes = List(
-            Node(id = 1, edges = List(Edge(to = 2), Edge(to = 3), Edge(to = 4))),
-            Node(id = 2, edges = List(Edge(to = 1))),
-            Node(id = 3, edges = List(Edge(to = 3), Edge(to = 2))),
-            Node(id = 4, edges = List(Edge(to = 1), Edge(to = 2))),
-            Node(id = 5, edges = List(Edge(to = 1), Edge(to = 2)))
+            Node(id = 1, edges = List(Edge(to = 2, weight = 3), Edge(to = 3, weight = 1), Edge(to = 4, weight = 4))),
+            Node(id = 2, edges = List(Edge(to = 1, weight = 5))),
+            Node(id = 3, edges = List(Edge(to = 3, weight = 2), Edge(to = 2, weight = 6))),
+            Node(id = 4, edges = List(Edge(to = 1, weight = 2), Edge(to = 2, weight = 3))),
+            Node(id = 5, edges = List(Edge(to = 1, weight = 4), Edge(to = 2, weight = 1)))
         )
     )
 
@@ -42,6 +42,31 @@ object GraphExample {
         }
 
         bfsOrder.toList
+    }
+
+    def dijkstra(graph: Graph, startId: Int): Map[Int, Int] = {
+        val nodeMap = graph.nodes.map(node => node.id -> node).toMap
+        val distances = mutable.Map[Int, Int]().withDefaultValue(Int.MaxValue)
+        val priorityQueue = mutable.PriorityQueue[(Int, Int)]()(Ordering.by(-_._2))
+
+        distances(startId) = 0
+        priorityQueue.enqueue((startId, 0))
+
+        while (priorityQueue.nonEmpty) {
+            val (currentId, currentDist) = priorityQueue.dequeue()
+            val currentNode = nodeMap(currentId)
+
+            if (currentDist <= distances(currentId)) {
+                for (Edge(neighborId, weight) <- currentNode.edges) {
+                    val distance = currentDist + weight
+                    if (distance < distances(neighborId)) {
+                        distances(neighborId) = distance
+                        priorityQueue.enqueue((neighborId, distance))
+                    }
+                }
+            }
+        }
+        distances.toMap
     }
 
     def topologicalSort(graph: Graph): List[Int] = {
@@ -108,5 +133,10 @@ object GraphExample {
         println("\n\n--------------------------------\n\n")
         println(s"Topological order: ${topologicalSort(graph).mkString(", ")}")
         println("\n\n--------------------------------\n\n")
+
+        println("\n\n--------------------------------\n\n")
+        println(s"Les distances les plus courtes à partir du nœud 1 :")
+        val distances = dijkstra(graph, 1)
+        distances.foreach { case (nodeId, distance) => println(s"Nœud $nodeId : $distance") }
     }
 }
