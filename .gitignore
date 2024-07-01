@@ -1,0 +1,7 @@
+lib_managed/
+plugins/target/
+target/
+.vscode/
+.metals/
+.bsp/
+project/
