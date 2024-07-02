@@ -36,5 +36,13 @@ object Main {
         println(s"Les distances les plus courtes à partir du nœud 1 :")
         val distances = GraphOperations.dijkstra(graph, 1)
         distances.foreach { case (nodeId, distance) => println(s"Nœud $nodeId : $distance") }
+        println("\n\n--------------------------------\n\n")
+
+        println("\n\n--------------------------------\n\n")
+        println(s"BFS Order starting from node 1: ${GraphOperations.dfs(graph, 1).mkString(", ")}")
+        println(s"BFS Order starting from node 2: ${GraphOperations.dfs(graph, 2).mkString(", ")}")
+        println(s"BFS Order starting from node 3: ${GraphOperations.dfs(graph, 3).mkString(", ")}")
+        println(s"BFS Order starting from node 4: ${GraphOperations.dfs(graph, 4).mkString(", ")}")
+        println("\n\n--------------------------------\n\n")
     }
 }

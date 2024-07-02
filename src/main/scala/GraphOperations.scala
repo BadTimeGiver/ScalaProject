@@ -23,6 +23,23 @@ object GraphOperations {
 
         bfsOrder.toList
     }
+    def dfs (graph: Graph, startId: Int): List[Int] = {
+        val nodeMap = graph.nodes.map(node => node.id -> node).toMap
+        val visited = scala.collection.mutable.Set[Int]()
+        val stack = scala.collection.mutable.Stack[Int]()
+        val dfsOrder = scala.collection.mutable.ListBuffer[Int]()
+        stack.push(startId)
+        visited.add(startId)
+        while (stack.nonEmpty){
+            val currentId = stack.pop()
+            dfsOrder += currentId
+            val currentNode = nodeMap(currentId)
+            for (edge <- currentNode.edges if !visited.contains(edge.to)) {
+                stack.push(edge.to)
+            }
+        }
+        dfsOrder.toList
+    }
 
     def dijkstra(graph: Graph, startId: Int): Map[Int, Int] = {
         val nodeMap = graph.nodes.map(node => node.id -> node).toMap
