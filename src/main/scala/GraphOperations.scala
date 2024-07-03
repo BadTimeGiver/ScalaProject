@@ -23,6 +23,7 @@ object GraphOperations {
 
         bfsOrder.toList
     }
+
 def dfs(graph: Graph, startId: Int): List[Int] = {
     val nodeMap = graph.nodes.map(node => node.id -> node).toMap
     val visited = scala.collection.mutable.Set[Int]()
@@ -75,14 +76,28 @@ def dfs(graph: Graph, startId: Int): List[Int] = {
         distances.toMap
     }
 
-    def floyd()(graph: Graph, startId: Int): Map[Int, Int] = {
+    def floyd(graph: Graph): Map[(Int, Int), Int] = {
         val nodeMap = graph.nodes.map(node => node.id -> node).toMap
-        val distances = mutable.Map[Int, Int]().withDefaultValue(Int.MaxValue)
-        val nodeIds = graph.nodes.map(_.id)
-
-        for (nodes <- graph.nodes)
-
+        val nodeIds = nodeMap.keys
+        val distances = mutable.Map[(Int, Int), Int]().withDefaultValue(Int.MaxValue)
+        for ((id, node) <- nodeMap) {
+            distances((id, id)) = Int.MaxValue
+            for (edge <- node.edges) {
+                distances((id, edge.to)) = edge.weight
+            }
+        }
+        for (k <- nodeIds) {
+            for (i <- nodeIds) {
+                for (j <- nodeIds) {
+                    if (distances((i, k)) != Int.MaxValue && distances((k, j)) != Int.MaxValue) {
+                        distances((i, j)) = Math.min(distances((i, j)), distances((i, k)) + distances((k, j)))
+                    }
+                }
+            }
+        }
+        distances.toMap
     }
+
 
     def topologicalSort(graph: Graph): List[Int] = {
         if(hasCycle(graph)) {
