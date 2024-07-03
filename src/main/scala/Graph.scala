@@ -35,5 +35,20 @@ case class Graph(graphInformations: GraphInformations, nodes: List[Node]) {
         copy(nodes = nodeMap.values.toList)
     }
 
+    def removeEdge(from: Int, to: Int): Graph = {
+        if (nodeMap.contains(from)) {
+            val fromNode = nodeMap(from)
+            val updatedEdges = fromNode.edges.filterNot(_.to == to)
+            nodeMap.update(from, fromNode.copy(edges = updatedEdges))
+
+            if (graphInformations.isBidirectional && nodeMap.contains(to)) {
+                val toNode = nodeMap(to)
+                val updatedEdgesTo = toNode.edges.filterNot(_.to == from)
+                nodeMap.update(to, toNode.copy(edges = updatedEdgesTo))
+            }
+        }
+        copy(nodes = nodeMap.values.toList)
+    }
+
 }
 
