@@ -35,27 +35,29 @@ case class Graph(graphInformations: GraphInformations, nodes: List[Node]) {
     }
 
     def removeVertex(id: Int): Graph = {
-        nodeMap -= id
-        for ((nodeId, node) <- nodeMap) {
-            val updatedEdges = node.edges.filterNot(_.to == id)
-            nodeMap.update(nodeId, node.copy(edges = updatedEdges))
+        val updatedNodeMap = nodeMap - id
+        val finalNodeMap = updatedNodeMap.map { case (nodeId, node) =>
+            nodeId -> node.copy(edges = node.edges.filterNot(_.to == id))
         }
-        copy(nodes = nodeMap.values.toList)
+        Graph(graphInformations, finalNodeMap.values.toList)
     }
 
     def removeEdge(from: Int, to: Int): Graph = {
         if (nodeMap.contains(from)) {
             val fromNode = nodeMap(from)
-            val updatedEdges = fromNode.edges.filterNot(_.to == to)
-            nodeMap.update(from, fromNode.copy(edges = updatedEdges))
-
-            if (graphInformations.isBidirectional && nodeMap.contains(to)) {
-                val toNode = nodeMap(to)
-                val updatedEdgesTo = toNode.edges.filterNot(_.to == from)
-                nodeMap.update(to, toNode.copy(edges = updatedEdgesTo))
+            val updatedFromNode = fromNode.copy(edges = fromNode.edges.filterNot(_.to == to))
+            val updatedNodeMap = nodeMap.updated(from, updatedFromNode)
+            val finalNodeMap = if (graphInformations.isBidirectional && nodeMap.contains(to)) {
+                val toNode = updatedNodeMap(to)
+                val updatedToNode = toNode.copy(edges = toNode.edges.filterNot(_.to == from))
+                updatedNodeMap.updated(to, updatedToNode)
+            } else {
+                updatedNodeMap
             }
+            Graph(graphInformations, finalNodeMap.values.toList)
+        } else {
+            this
         }
-        copy(nodes = nodeMap.values.toList)
     }
 }
 
