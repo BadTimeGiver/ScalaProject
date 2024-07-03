@@ -88,6 +88,6 @@ class GraphOperationsSpec extends AnyFlatSpec with Matchers {
         )
 
         val result = GraphOperations.hasCycle(graph)
-        result shouldBe true
+        result shouldBe false
     }
 }

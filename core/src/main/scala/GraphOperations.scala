@@ -1,4 +1,5 @@
 import scala.collection.mutable
+import scala.annotation.tailrec
 
 object GraphOperations {
     def bfs(graph: Graph, startId: Int): List[Int] = {
@@ -23,6 +24,23 @@ object GraphOperations {
 
         bfsOrder.toList
     }
+
+    @tailrec
+    def bfsRecursive(graph: Graph, queue: List[Int], visited: Set[Int], bfsOrder: List[Int]): List[Int] = {
+        if (queue.isEmpty) {
+            bfsOrder
+        } else {
+            val currentId = queue.head
+            val restQueue = queue.tail
+            val nodeMap = graph.nodes.map(node => node.id -> node).toMap
+            val currentNode = nodeMap(currentId)
+            val newNodes = currentNode.edges.filterNot(edge => visited.contains(edge.to)).map(_.to).toList
+            val newVisited = visited ++ newNodes
+            val newQueue = restQueue ++ newNodes
+            bfsRecursive(graph, newQueue, newVisited, bfsOrder :+ currentId)
+        }
+    }
+
 
     def dfs(graph: Graph, startId: Int): List[Int] = {
         val nodeMap = graph.nodes.map(node => node.id -> node).toMap
