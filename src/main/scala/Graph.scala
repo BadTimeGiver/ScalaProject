@@ -26,5 +26,14 @@ case class Graph(graphInformations: GraphInformations, nodes: List[Node]) {
         copy(nodes = nodeMap.values.toList)
     }
 
+    def removeVertex(id: Int): Graph = {
+        nodeMap -= id
+        for ((nodeId, node) <- nodeMap) {
+            val updatedEdges = node.edges.filterNot(_.to == id)
+            nodeMap.update(nodeId, node.copy(edges = updatedEdges))
+        }
+        copy(nodes = nodeMap.values.toList)
+    }
+
 }
 
