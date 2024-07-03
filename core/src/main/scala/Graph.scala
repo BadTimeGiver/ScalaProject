@@ -1,4 +1,4 @@
-import scala.collection.mutable
+
 
 case class Edge(to: Int, weight: Int)
 case class Node(id: Int, edges: List[Edge])
@@ -21,14 +21,16 @@ case class Graph(graphInformations: GraphInformations, nodes: List[Node]) {
             val fromNode = nodeMap(from)
             val updatedFromNode = fromNode.copy(edges = Edge(to, weight) :: fromNode.edges)
             val updatedNodeMap = nodeMap.updated(from, updatedFromNode)
-            val finalNodeMap = if (graphInformations.isBidirectional) {
-            val toNode = updatedNodeMap(to)
-            val updatedToNode = toNode.copy(edges = Edge(from, weight) :: toNode.edges)
-            updatedNodeMap.updated(to, updatedToNode)
-        } else {
-            updatedNodeMap
-        }
-        Graph(graphInformations, finalNodeMap.values.toList)
+            val finalNodeMap =
+                if (graphInformations.isBidirectional) {
+                    val toNode = updatedNodeMap(to)
+                    val updatedToNode = toNode.copy(edges = Edge(from, weight) :: toNode.edges)
+                    updatedNodeMap.updated(to, updatedToNode)
+                } else {
+                    updatedNodeMap
+                }
+
+            Graph(graphInformations, finalNodeMap.values.toList)
         } else {
             this
         }
@@ -36,8 +38,8 @@ case class Graph(graphInformations: GraphInformations, nodes: List[Node]) {
 
     def removeVertex(id: Int): Graph = {
         val updatedNodeMap = nodeMap - id
-        val finalNodeMap = updatedNodeMap.map { case (nodeId, node) =>
-            nodeId -> node.copy(edges = node.edges.filterNot(_.to == id))
+        val finalNodeMap = updatedNodeMap.map {
+            case (nodeId, node) => nodeId -> node.copy(edges = node.edges.filterNot(_.to == id))
         }
         Graph(graphInformations, finalNodeMap.values.toList)
     }
