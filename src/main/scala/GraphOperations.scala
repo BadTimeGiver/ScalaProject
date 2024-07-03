@@ -75,6 +75,15 @@ def dfs(graph: Graph, startId: Int): List[Int] = {
         distances.toMap
     }
 
+    def floyd()(graph: Graph, startId: Int): Map[Int, Int] = {
+        val nodeMap = graph.nodes.map(node => node.id -> node).toMap
+        val distances = mutable.Map[Int, Int]().withDefaultValue(Int.MaxValue)
+        val nodeIds = graph.nodes.map(_.id)
+
+        for (nodes <- graph.nodes)
+
+    }
+
     def topologicalSort(graph: Graph): List[Int] = {
         if(hasCycle(graph)) {
             return List()
