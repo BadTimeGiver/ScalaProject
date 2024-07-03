@@ -10,5 +10,21 @@ case class Graph(graphInformations: GraphInformations, nodes: List[Node]) {
         }
         copy(nodes = nodeMap.values.toList)
     }
+
+    def addEdge(from: Int, to: Int, weight: Int = 1): Graph = {
+        if (nodeMap.contains(from) && nodeMap.contains(to)) {
+            val fromNode = nodeMap(from)
+            val updatedEdges = Edge(to, weight) :: fromNode.edges
+            nodeMap.update(from, fromNode.copy(edges = updatedEdges))
+
+            if (graphInformations.isBidirectional) {
+                val toNode = nodeMap(to)
+                val updatedEdgesTo = Edge(from, weight) :: toNode.edges
+                nodeMap.update(to, toNode.copy(edges = updatedEdgesTo))
+            }
+        }
+        copy(nodes = nodeMap.values.toList)
+    }
+
 }
 
