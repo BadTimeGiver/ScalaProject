@@ -46,6 +46,7 @@ object GraphOperations {
                     }
                 }
             }
+            print(stack.mkString(", "))
         }
 
         dfsOrder.toList
@@ -102,23 +103,23 @@ object GraphOperations {
 
     def topologicalSort(graph: Graph): List[Int] = {
         if(hasCycle(graph)) {
-            return List()
-        }
+            List()
+        } else {
+            val nodeMap = graph.nodes.map(node => node.id -> node).toMap
+            val visited = mutable.Set[Int]()
+            val stack = mutable.Stack[Int]()
 
-        val nodeMap = graph.nodes.map(node => node.id -> node).toMap
-        val visited = mutable.Set[Int]()
-        val stack = mutable.Stack[Int]()
-
-        def visit(node: Node): Unit = {
-            if (!visited.contains(node.id)) {
-                visited.add(node.id)
-                node.edges.foreach(edge => visit(nodeMap(edge.to)))
-                stack.push(node.id)
+            def visit(node: Node): Unit = {
+                if (!visited.contains(node.id)) {
+                    visited.add(node.id)
+                    node.edges.foreach(edge => visit(nodeMap(edge.to)))
+                    stack.push(node.id)
+                }
             }
-        }
 
-        graph.nodes.foreach(node => if (!visited.contains(node.id)) visit(node))
-        stack.toList
+            graph.nodes.foreach(node => if (!visited.contains(node.id)) visit(node))
+            stack.toList
+        }
     }
 
     def hasCycle(graph: Graph): Boolean = {
