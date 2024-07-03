@@ -5,12 +5,15 @@ case class Node(id: Int, edges: List[Edge])
 case class GraphInformations(name: String, isWeighted: Boolean, isBidirectional: Boolean)
 
 case class Graph(graphInformations: GraphInformations, nodes: List[Node]) {
-    private val nodeMap: mutable.Map[Int, Node] = mutable.Map(nodes.map(node => node.id -> node): _*)
+    private val nodeMap: Map[Int, Node] = nodes.map(node => node.id -> node).toMap
+
     def addVertex(id: Int): Graph = {
         if (!nodeMap.contains(id)) {
-            nodeMap += (id -> Node(id, List()))
+            val newNode = Node(id, List())
+            Graph(graphInformations, nodes :+ newNode)
+        } else {
+            this
         }
-        copy(nodes = nodeMap.values.toList)
     }
 
     def addEdge(from: Int, to: Int, weight: Int = 1): Graph = {
