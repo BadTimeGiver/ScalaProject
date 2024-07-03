@@ -11,7 +11,7 @@ lazy val core = (project in file("core"))
         libraryDependencies += "org.scalatest" %% "scalatest" % scalatestVersion % "test"
     )
 
-// lazy val util = (project in file("util"))
+// lazy val app = (project in file("app"))
 //   .settings(
     // other settings
-//   )
+//   ).dependsOn(core)
