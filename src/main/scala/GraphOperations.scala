@@ -89,12 +89,13 @@ object GraphOperations {
         for (k <- nodeIds) {
             for (i <- nodeIds) {
                 for (j <- nodeIds) {
-                    if (distances((i, k)) != Int.MaxValue && distances((k, j)) != Int.MaxValue) {
+                    if (distances((i, k)) != Int.MaxValue && distances((k, j)) != Int.MaxValue && i!=j) {
                         distances((i, j)) = Math.min(distances((i, j)), distances((i, k)) + distances((k, j)))
                     }
                 }
             }
         }
+
         distances.toMap
     }
 
