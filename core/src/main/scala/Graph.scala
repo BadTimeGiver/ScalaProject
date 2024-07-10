@@ -17,9 +17,13 @@ case class Graph(graphInformations: GraphInformations, nodes: List[Node]) {
     def addEdge(from: Int, to: Int, weight: Int = 1): Graph = {
         if (nodeMap.contains(from) && nodeMap.contains(to)) {
             val fromNode = nodeMap(from)
-            val updatedFromNode = fromNode.copy(edges = Edge(to, weight) :: fromNode.edges)
-            val updatedNodeMap = nodeMap.updated(from, updatedFromNode)
-            val finalNodeMap =
+            val isAlreadyAdded = fromNode.edges.exists({ edge => edge.to == to })
+            if(isAlreadyAdded) {
+                this
+            } else {
+                val updatedFromNode = fromNode.copy(edges = Edge(to, weight) :: fromNode.edges)
+                val updatedNodeMap = nodeMap.updated(from, updatedFromNode)
+                val finalNodeMap =
                 if (graphInformations.isBidirectional) {
                     val toNode = updatedNodeMap(to)
                     val updatedToNode = toNode.copy(edges = Edge(from, weight) :: toNode.edges)
@@ -28,7 +32,8 @@ case class Graph(graphInformations: GraphInformations, nodes: List[Node]) {
                     updatedNodeMap
                 }
 
-            Graph(graphInformations, finalNodeMap.values.toList)
+                Graph(graphInformations, finalNodeMap.values.toList)
+            }
         } else {
             this
         }
