@@ -1,3 +1,5 @@
+import java.io._
+
 case class Edge(to: Int, weight: Int)
 case class Node(id: Int, edges: List[Edge])
 case class GraphInformations(name: String, isWeighted: Boolean, isBidirectional: Boolean)
@@ -37,6 +39,27 @@ case class Graph(graphInformations: GraphInformations, nodes: List[Node]) {
         } else {
             this
         }
+    }
+
+    def graphToDOT(): String = {
+        val sb = new StringBuilder
+        sb.append("digraph G {\n")
+
+        nodes.foreach { node =>
+            sb.append(s"  ${node.id};\n")
+            node.edges.foreach { edge =>
+                sb.append(s"  ${node.id} -> ${edge.to} [label=${edge.weight}];\n")
+            }
+        }
+
+        sb.append("}")
+        sb.toString()
+    }
+
+    def writeGraphToFile(fileName: String) = {
+        val pw = new PrintWriter(new File(s"output/dot/${fileName}"))
+        pw.write(graphToDOT())
+        pw.close()
     }
 
     def removeVertex(id: Int): Graph = {
