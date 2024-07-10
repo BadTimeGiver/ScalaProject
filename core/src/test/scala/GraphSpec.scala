@@ -88,102 +88,94 @@ class GraphSpec extends AnyFlatSpec with Matchers {
         flattedEdgesList shouldBe List((1, 2, 2))
     }
 
-    // "Remove Vertex" should "Remove a vertex from a graph" in {
 
-    // }
-    // it should "Remove a vertex from a graph" in {
+    /////////////////// -- REMOVE VERTEX TEST -- ///////////////////
+    "Remove Vertex" should "Remove a vertex from a graph" in {
+        val graph = new Graph(
+            GraphInformations("TestGraph", isWeighted = false, isBidirectional = false),
+            List(
+                Node(1, List(Edge(2, 0), Edge(3, 0))),
+                Node(2, List(Edge(3, 0))),
+                Node(3, List(Edge(1, 0))),
+            )
+        )
 
-    // }
-    // it should "Remove a vertex from a graph" in {
+        val result = graph.removeVertex(3)
+        result shouldBe new Graph(
+            GraphInformations("TestGraph", isWeighted = false, isBidirectional = false),
+            List(Node(1, List(Edge(2, 0))), Node(2, List()))
+        )
+    }
 
-    // }
-    // it should "add edge to a graph" in {
+    it should "Not remove a vertex if not exists / already removed" in {
+        val graph = new Graph(
+            GraphInformations("TestGraph", isWeighted = false, isBidirectional = false),
+            List(Node(1, List(Edge(2, 0), Edge(3, 0))),Node(2, List(Edge(3, 0))),Node(3, List(Edge(1, 0))))
+        )
 
-    // }
-    // it should "add edge to a graph" in {
+        val result = graph.removeVertex(4)
+        result shouldBe new Graph(
+            GraphInformations("TestGraph", isWeighted = false, isBidirectional = false),
+            List(Node(1, List(Edge(2, 0), Edge(3, 0))), Node(2, List(Edge(3, 0))), Node(3, List(Edge(1, 0))))
+        )
+    }
 
-    // }
-    // it should "add edge to a graph" in {
+    it should "Not Remove in an empty graph" in {
+        val graph = new Graph(GraphInformations("TestGraph", isWeighted = false, isBidirectional = false), List())
+        val result = graph.removeVertex(1)
+        result shouldBe new Graph(GraphInformations("TestGraph", isWeighted = false, isBidirectional = false), List())
+    }
 
-    // }
+    /////////////////// -- REMOVE EDGE TEST -- ///////////////////
+    "Remove Edge" should "Remove Edge in a Graph" in {
+        val graph = new Graph(
+            GraphInformations("TestGraph", isWeighted = false, isBidirectional = false),
+            List(Node(1, List(Edge(2, 0), Edge(3, 0))), Node(2, List(Edge(3, 0))), Node(3, List(Edge(1, 0))))
+        )
 
-    // "Remove Vertex" should "Remove a vertex from a graph" in {
+        val result = graph.removeEdge(1, 2)
+        result shouldBe new Graph(
+            GraphInformations("TestGraph", isWeighted = false, isBidirectional = false),
+            List(Node(1, List(Edge(3, 0))), Node(2, List(Edge(3, 0))), Node(3, List(Edge(1, 0))))
+        )
+    }
 
-    // }
-    // it should "Remove a vertex from a graph" in {
+    it should "Not remove an edge if begin node does not exist" in {
+        val graph = new Graph(
+            GraphInformations("TestGraph", isWeighted = false, isBidirectional = false),
+            List(Node(1, List(Edge(2, 0), Edge(3, 0))), Node(2, List(Edge(3, 0))), Node(3, List(Edge(1, 0))))
+        )
 
-    // }
-    // it should "Remove a vertex from a graph" in {
+        val result = graph.removeEdge(4, 2)
+        result shouldBe new Graph(
+            GraphInformations("TestGraph", isWeighted = false, isBidirectional = false),
+            List(Node(1, List(Edge(2, 0), Edge(3, 0))), Node(2, List(Edge(3, 0))), Node(3, List(Edge(1, 0))))
+        )
+    }
 
-    // }
-    // it should "add edge to a graph" in {
+    it should "Not remove an edge if end node does not exist" in {
+        val graph = new Graph(
+            GraphInformations("TestGraph", isWeighted = false, isBidirectional = false),
+            List(Node(1, List(Edge(2, 0), Edge(3, 0))), Node(2, List(Edge(3, 0))), Node(3, List(Edge(1, 0))))
+        )
 
-    // }
-    // it should "add edge to a graph" in {
+        val result = graph.removeEdge(2, 4)
+        result shouldBe new Graph(
+            GraphInformations("TestGraph", isWeighted = false, isBidirectional = false),
+            List(Node(1, List(Edge(2, 0), Edge(3, 0))), Node(2, List(Edge(3, 0))), Node(3, List(Edge(1, 0))))
+        )
+    }
 
-    // }
-    // it should "add edge to a graph" in {
+    it should "Not remove an edge if edge does not exist" in {
+        val graph = new Graph(
+            GraphInformations("TestGraph", isWeighted = false, isBidirectional = false),
+            List(Node(1, List(Edge(2, 0), Edge(3, 0))), Node(2, List(Edge(3, 0))), Node(3, List(Edge(1, 0))))
+        )
 
-    // }
-
-    // "Remove Vertex" should "Remove a vertex from a graph" in {
-
-    // }
-    // it should "Remove a vertex from a graph" in {
-
-    // }
-    // it should "Remove a vertex from a graph" in {
-
-    // }
-    // it should "add edge to a graph" in {
-
-    // }
-    // it should "add edge to a graph" in {
-
-    // }
-    // it should "add edge to a graph" in {
-
-    // }
-
-    // "Remove Vertex" should "Remove a vertex from a graph" in {
-
-    // }
-    // it should "Remove a vertex from a graph" in {
-
-    // }
-    // it should "Remove a vertex from a graph" in {
-
-    // }
-    // it should "add edge to a graph" in {
-
-    // }
-    // it should "add edge to a graph" in {
-
-    // }
-    // it should "add edge to a graph" in {
-
-    // }
-
-    // "Remove Vertex" should "Remove a vertex from a graph" in {
-
-    // }
-    // it should "Remove a vertex from a graph" in {
-
-    // }
-    // it should "Remove a vertex from a graph" in {
-
-    // }
-
-    // "Remove Edge" should "Remove a vertex from a graph" in {
-
-    // }
-    // it should "Remove a vertex from a graph" in {
-
-    // }
-    // it should "Remove a vertex from a graph" in {
-
-    // }
-    // it should "Remove a vertex from a graph" in {
-
-    // }
+        val result = graph.removeEdge(2, 1)
+        result shouldBe new Graph(
+            GraphInformations("TestGraph", isWeighted = false, isBidirectional = false),
+            List(Node(1, List(Edge(2, 0), Edge(3, 0))), Node(2, List(Edge(3, 0))), Node(3, List(Edge(1, 0))))
+        )
+    }
 }
