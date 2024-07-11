@@ -81,7 +81,6 @@ object Main {
     )
 
     def main(args: Array[String]): Unit = {
-        println("Coucou")
-        graph.writeGraphToFile("Test.dot")
+        GraphVisualization.generateGraph(graph, "Test2")
     }
 }
