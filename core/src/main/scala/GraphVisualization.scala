@@ -15,13 +15,7 @@ object GraphVisualization {
             createDotFile(dotGraphPath, graphToDOT(graph))
             val process = new ProcessBuilder("dot", "-Tpng", dotGraphPath, "-o", pngFilePath).redirectErrorStream(true).start()
             val exitCode = process.waitFor()
-            if (exitCode == 0) {
-                println(s"Graph generated successfully at $pngFilePath")
-                true
-            } else {
-                println(s"Error in generating graph: $exitCode")
-                false
-            }
+            exitCode == 0
         } else {
             false
         }
