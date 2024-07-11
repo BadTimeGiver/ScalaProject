@@ -1,6 +1,8 @@
 import zio.json._
 import scala.util.Using
 import java.io._
+import scala.io.Source
+import scala.util._
 
 object GraphSerialization {
     implicit val edgeDecoder: JsonDecoder[Edge] = DeriveJsonDecoder.gen[Edge]
@@ -29,4 +31,13 @@ object GraphSerialization {
             writer.write(json)
         }.getOrElse(throw new RuntimeException("Failed to write to file"))
     }
+
+    def readFromFile(filePath: String): Either[String, Graph] = {
+        val source = Using(Source.fromFile(filePath))(_.mkString)
+        source match {
+            case Failure(value) => throw new IllegalStateException
+            case Success(value) => fromJSON(value)
+        }
+    }
+
 }
