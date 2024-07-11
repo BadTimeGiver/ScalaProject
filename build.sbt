@@ -8,7 +8,8 @@ lazy val core = (project in file("core"))
     .settings(
         name := "core",
         libraryDependencies += "org.scalatest" %% "scalatest-flatspec" % scalatestVersion % "test",
-        libraryDependencies += "org.scalatest" %% "scalatest" % scalatestVersion % "test"
+        libraryDependencies += "org.scalatest" %% "scalatest" % scalatestVersion % "test",
+        libraryDependencies += "dev.zio" %% "zio-json" % "0.7.1"
     )
 
 // lazy val app = (project in file("app"))
