@@ -17,7 +17,7 @@ object GraphSerialization {
         graph.toJsonPretty
     }
 
-    def fromJSON(json: String) : Either[Graph,String]={
+    def fromJSON(json: String) : Either[String,Graph]={
         json.fromJson[Graph]
     }
 }
