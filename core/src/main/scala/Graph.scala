@@ -1,3 +1,5 @@
+package fr.scalaproject.core
+
 import java.io._
 
 case class Edge(to: Int, weight: Int)

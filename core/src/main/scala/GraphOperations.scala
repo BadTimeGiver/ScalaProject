@@ -1,8 +1,11 @@
+package fr.scalaproject.core
+
 import scala.collection.immutable.*
 import scala.annotation.tailrec
 
 object GraphOperations {
     def bfs(graph: Graph, startId: Int): List[Int] = {
+        @tailrec
         def bfsRecursive( nodeMap: Map[Int, Node], queue: List[Int], visited: Set[Int], bfsOrder: List[Int]): List[Int] = {
             queue match {
                 case Nil => bfsOrder
@@ -23,22 +26,22 @@ object GraphOperations {
     def dfs(graph: Graph, startId: Int): List[Int] = {
         val nodeMap = graph.nodes.map(node => node.id -> node).toMap
 
-        @annotation.tailrec
-        def dfsIter(stack: List[Int],visited: Set[Int],dfsOrder: List[Int]): List[Int] = {
+        @tailrec
+        def dfsRecursive(stack: List[Int],visited: Set[Int],dfsOrder: List[Int]): List[Int] = {
             stack match {
                 case Nil => dfsOrder
                 case currentId :: rest =>
                     if (visited.contains(currentId)) {
-                        dfsIter(rest, visited, dfsOrder)
+                        dfsRecursive(rest, visited, dfsOrder)
                     } else {
                         val currentNode = nodeMap(currentId)
                         val newStack = currentNode.edges.map(_.to).filterNot(visited.contains) ++ rest
-                        dfsIter(newStack, visited + currentId, dfsOrder :+ currentId)
+                        dfsRecursive(newStack, visited + currentId, dfsOrder :+ currentId)
                     }
             }
         }
 
-        dfsIter(List(startId), Set.empty, List.empty)
+        dfsRecursive(List(startId), Set.empty, List.empty)
     }
 
     def dijkstra(graph: Graph, startId: Int): Map[Int, Int] = {

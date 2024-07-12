@@ -1,4 +1,3 @@
-ThisBuild / organization := "com.example"
 ThisBuild / version      := "0.1.0-SNAPSHOT"
 ThisBuild / scalaVersion := "3.3.3"
 
@@ -12,7 +11,22 @@ lazy val core = (project in file("core"))
         libraryDependencies += "dev.zio" %% "zio-json" % "0.7.1"
     )
 
-// lazy val app = (project in file("app"))
-//   .settings(
-    // other settings
-//   ).dependsOn(core)
+
+lazy val app = (project in file("app"))
+    .settings(
+        name := "app",
+        libraryDependencies += "dev.zio" %% "zio" % "2.0.19",
+        libraryDependencies += "dev.zio" %% "zio-json" % "0.7.1",
+        libraryDependencies += "dev.zio" %% "zio-streams" % "2.0.19",
+        libraryDependencies += "dev.zio" %% "zio-http" % "3.0.0-RC9",
+        libraryDependencies += "io.circe" %% "circe-core" % "0.14.1",
+        libraryDependencies += "io.circe" %% "circe-generic" % "0.14.1",
+        libraryDependencies += "io.circe" %% "circe-parser" % "0.14.1"
+    ).dependsOn(core)
+
+lazy val root = (project in file("."))
+    .aggregate(core, app)
+    .settings(
+        publish := {},
+        publishLocal := {}
+    )

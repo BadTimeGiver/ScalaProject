@@ -10,3 +10,4 @@ project/
 # Output
 *.dot
 *.png
+*.json

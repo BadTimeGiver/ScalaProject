@@ -1,3 +1,5 @@
+package fr.scalaproject.core
+
 import zio.json._
 import scala.util.Using
 import java.io._
@@ -21,19 +23,19 @@ object GraphSerialization {
         graph.toJsonPretty
     }
 
-    def fromJSON(json: String) : Either[String,Graph]={
+    def fromJSON(json: String) : Either[String,Graph] = {
         json.fromJson[Graph]
     }
-    
-    def writeToFile(graph: Graph, filePath: String): Unit = {
+
+    def writeToFile(graph: Graph, graphName: String): Unit = {
         val json = toJSON(graph)
-        Using(new PrintWriter(new File(filePath))) { writer =>
+        Using(new PrintWriter(new File(s"graph/${graphName}.json"))) { writer =>
             writer.write(json)
         }.getOrElse(throw new RuntimeException("Failed to write to file"))
     }
 
-    def readFromFile(filePath: String): Either[String, Graph] = {
-        val source = Using(Source.fromFile(filePath))(_.mkString)
+    def readFromFile(graphName: String): Either[String, Graph] = {
+        val source = Using(Source.fromFile(s"graph/${graphName}.json"))(_.mkString)
         source match {
             case Failure(value) => throw new IllegalStateException
             case Success(value) => fromJSON(value)
