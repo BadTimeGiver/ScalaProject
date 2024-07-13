@@ -19,9 +19,12 @@ object GraphOperations {
         }
 
         val nodeMap = graph.nodes.map(node => node.id -> node).toMap
-        bfsRecursive(nodeMap, List(startId), Set(startId), List())
+        if (!nodeMap.contains(startId)) {
+            List()
+        } else {
+            bfsRecursive(nodeMap, List(startId), Set(startId), List())
+        }
     }
-
 
     def dfs(graph: Graph, startId: Int): List[Int] = {
         val nodeMap = graph.nodes.map(node => node.id -> node).toMap
