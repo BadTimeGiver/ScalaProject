@@ -63,6 +63,23 @@ object Application extends ZIOAppDefault {
                     case Left(value) => Response.json("The graph has not been found")
                 }
             }
+        } },
+
+        Method.GET / "dijkstra" -> handler { (req: Request) => {
+            val graphName = req.queryParam("name")
+            val beginId = req.queryParam("beginId").map(_.toInt)
+
+            if (graphName.isEmpty) {
+               Response.json("You must provide a graph name")
+            } else if (beginId.isEmpty) {
+               Response.json("You must provide the ID of the begin node (name : beginId)")
+            } else {
+                val finalGraphName = graphName.getOrElse("")
+                GraphSerialization.readFromFile(finalGraphName) match {
+                    case Right(value) => Response.json(s"Result : ${dijkstra(value, beginId.getOrElse(0)).mkString(", ")}")
+                    case Left(value) => Response.json("The graph has not been found")
+                }
+            }
         } }
     )
 
