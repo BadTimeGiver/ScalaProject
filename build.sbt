@@ -21,7 +21,8 @@ lazy val app = (project in file("app"))
         libraryDependencies += "dev.zio" %% "zio-http" % "3.0.0-RC9",
         libraryDependencies += "io.circe" %% "circe-core" % "0.14.1",
         libraryDependencies += "io.circe" %% "circe-generic" % "0.14.1",
-        libraryDependencies += "io.circe" %% "circe-parser" % "0.14.1"
+        libraryDependencies += "io.circe" %% "circe-parser" % "0.14.1",
+        libraryDependencies += "io.spray" %% "spray-json" % "1.3.6"
     ).dependsOn(core)
 
 lazy val root = (project in file("."))

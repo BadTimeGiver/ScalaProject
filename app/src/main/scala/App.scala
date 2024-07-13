@@ -5,6 +5,8 @@ import zio._
 import zio.http._
 import fr.scalaproject.core.GraphOperations._
 import fr.scalaproject.core.GraphVisualization.graphToDOT
+import spray.json.DefaultJsonProtocol
+import spray.json._
 
 object Application extends ZIOAppDefault {
     val routes = Routes(
@@ -110,13 +112,53 @@ object Application extends ZIOAppDefault {
         } },
 
         Method.GET / "display-graph" -> handler { (req: Request) => {
-           val graphName = req.queryParam("name")
+            val graphName = req.queryParam("name")
             if (graphName.isEmpty) {
                 Response.json("You must provide a graph name")
             } else {
                 val finalGraphName = graphName.getOrElse("")
                 GraphSerialization.readFromFile(finalGraphName) match {
                     case Right(value) => Response.json(s"Here is the graph ${finalGraphName} :\n${graphToDOT(value)}")
+                    case Left(value) => Response.json("The graph has not been found")
+                }
+            }
+        } },
+
+        Method.GET / "add-vertex" -> handler { (req: Request) => {
+            val graphName = req.queryParam("name")
+            val nodeToAdd = req.queryParam("newNode").map(_.toInt)
+            if (graphName.isEmpty) {
+                Response.json("You must provide a graph name")
+            } else if (nodeToAdd.isEmpty) {
+                Response.json("You must provide a node to add")
+            } else {
+                val finalGraphName = graphName.getOrElse("")
+                GraphSerialization.readFromFile(finalGraphName) match {
+                    case Right(value) => {
+                        val finalGraph = value.addVertex(nodeToAdd.getOrElse(0))
+                        GraphSerialization.writeToFile(finalGraph, finalGraphName)
+                        Response.json("The graph has been succesfully updated !")
+                    }
+                    case Left(value) => Response.json("The graph has not been found")
+                }
+            }
+        } },
+
+        Method.GET / "remove-vertex" -> handler { (req: Request) => {
+            val graphName = req.queryParam("name")
+            val nodeToRemove = req.queryParam("node").map(_.toInt)
+            if (graphName.isEmpty) {
+                Response.json("You must provide a graph name")
+            } else if (nodeToRemove.isEmpty) {
+                Response.json("You must provide a node to remove")
+            } else {
+                val finalGraphName = graphName.getOrElse("")
+                GraphSerialization.readFromFile(finalGraphName) match {
+                    case Right(value) => {
+                        val finalGraph = value.removeVertex(nodeToRemove.getOrElse(0))
+                        GraphSerialization.writeToFile(finalGraph, finalGraphName)
+                        Response.json("The graph has been succesfully updated !")
+                    }
                     case Left(value) => Response.json("The graph has not been found")
                 }
             }
