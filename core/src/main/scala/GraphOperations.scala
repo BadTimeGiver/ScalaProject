@@ -44,7 +44,11 @@ object GraphOperations {
             }
         }
 
-        dfsRecursive(List(startId), Set.empty, List.empty)
+        if (!nodeMap.contains(startId)) {
+            List()
+        } else {
+            dfsRecursive(List(startId), Set.empty, List.empty)
+        }
     }
 
     def dijkstra(graph: Graph, startId: Int): Map[Int, Int] = {
