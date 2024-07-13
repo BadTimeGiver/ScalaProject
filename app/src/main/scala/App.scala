@@ -50,6 +50,19 @@ object Application extends ZIOAppDefault {
                     case Left(value) => Response.json("The graph has not been found")
                 }
             }
+        } },
+
+        Method.GET / "topological-sort" -> handler { (req: Request) => {
+            val graphName = req.queryParam("name")
+            if (graphName.isEmpty) {
+                Response.json("You must provide a graph name")
+            } else {
+                val finalGraphName = graphName.getOrElse("")
+                GraphSerialization.readFromFile(finalGraphName) match {
+                    case Right(value) => Response.json(s"Topological sort of the graph ${finalGraphName} : ${topologicalSort(value).mkString(", ")}")
+                    case Left(value) => Response.json("The graph has not been found")
+                }
+            }
         } }
     )
 
