@@ -80,6 +80,32 @@ object Application extends ZIOAppDefault {
                     case Left(value) => Response.json("The graph has not been found")
                 }
             }
+        } },
+
+        Method.GET / "floyd-warshall" -> handler { (req: Request) => {
+            def floydResultString(graph: Graph): String = {
+                val result = floyd(graph)
+                val sb = new StringBuilder
+                result.foreach { case ((i, j), distance) =>
+                    if (distance == Int.MaxValue) {
+                        sb.append(s"Distance from $i to $j: ∞\n")
+                    } else {
+                        sb.append(s"Distance from $i to $j: $distance\n")
+                    }
+                }
+                sb.toString()
+            }
+
+            val graphName = req.queryParam("name")
+            if (graphName.isEmpty) {
+                Response.json("You must provide a graph name")
+            } else {
+                val finalGraphName = graphName.getOrElse("")
+                GraphSerialization.readFromFile(finalGraphName) match {
+                    case Right(value) => Response.json(s"Topological sort of the graph ${finalGraphName} :\n${floydResultString(value)}")
+                    case Left(value) => Response.json("The graph has not been found")
+                }
+            }
         } }
     )
 
