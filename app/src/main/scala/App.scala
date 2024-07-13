@@ -4,6 +4,7 @@ import fr.scalaproject.core._
 import zio._
 import zio.http._
 import fr.scalaproject.core.GraphOperations._
+import fr.scalaproject.core.GraphVisualization.graphToDOT
 
 object Application extends ZIOAppDefault {
     val routes = Routes(
@@ -103,6 +104,19 @@ object Application extends ZIOAppDefault {
                 val finalGraphName = graphName.getOrElse("")
                 GraphSerialization.readFromFile(finalGraphName) match {
                     case Right(value) => Response.json(s"Topological sort of the graph ${finalGraphName} :\n${floydResultString(value)}")
+                    case Left(value) => Response.json("The graph has not been found")
+                }
+            }
+        } },
+
+        Method.GET / "display-graph" -> handler { (req: Request) => {
+           val graphName = req.queryParam("name")
+            if (graphName.isEmpty) {
+                Response.json("You must provide a graph name")
+            } else {
+                val finalGraphName = graphName.getOrElse("")
+                GraphSerialization.readFromFile(finalGraphName) match {
+                    case Right(value) => Response.json(s"Here is the graph ${finalGraphName} :\n${graphToDOT(value)}")
                     case Left(value) => Response.json("The graph has not been found")
                 }
             }
