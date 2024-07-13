@@ -116,8 +116,6 @@ object GraphOperations {
         finalDistances
     }
 
-
-
     def topologicalSort(graph: Graph): List[Int] = {
         if (hasCycle(graph)) {
             List()
