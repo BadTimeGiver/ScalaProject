@@ -177,4 +177,33 @@ class GraphOperationsSpec extends AnyFlatSpec with Matchers {
         val result = GraphOperations.hasCycle(graph)
         result shouldBe false
     }
+
+    "topologicalSort" should "return a correct topological order for a simple acyclic graph" in {
+        val graph = Graph(
+            GraphInformations("TestGraph", isWeighted = false, isBidirectional = false),
+            List(
+                Node(1, List(Edge(2, 0), Edge(3, 0))),
+                Node(2, List(Edge(4, 0))),
+                Node(3, List(Edge(4, 0))),
+                Node(4, List())
+            )
+        )
+
+        val result = GraphOperations.topologicalSort(graph)
+        result shouldBe List(1, 3, 2, 4)
+    }
+
+    it should "return an empty List for a cyclic graph" in {
+        val graph = Graph(
+            GraphInformations("TestGraph", isWeighted = false, isBidirectional = false),
+            List(
+                Node(1, List(Edge(2, 0))),
+                Node(2, List(Edge(3, 0))),
+                Node(3, List(Edge(1, 0)))
+            )
+        )
+
+        val result = GraphOperations.topologicalSort(graph)
+        result shouldBe List()
+    }
 }
