@@ -162,6 +162,53 @@ object Application extends ZIOAppDefault {
                     case Left(value) => Response.json("The graph has not been found")
                 }
             }
+        } },
+
+        Method.GET / "add-edge" -> handler { (req: Request) => {
+            val graphName = req.queryParam("name")
+            val startNode = req.queryParam("startNode").map(_.toInt)
+            val endNode = req.queryParam("endNode").map(_.toInt)
+            val weight = req.queryParam("weight").map(_.toInt)
+            if (graphName.isEmpty) {
+                Response.json("You must provide a graph name")
+            } else if (startNode.isEmpty) {
+                Response.json("You must provide a valid start node !")
+            } else if (endNode.isEmpty) {
+                Response.json("You must provide a valid end node !")
+            } else {
+                val finalGraphName = graphName.getOrElse("")
+                GraphSerialization.readFromFile(finalGraphName) match {
+                    case Right(value) => {
+                        val finalGraph = value.addEdge(startNode.getOrElse(0), endNode.getOrElse(0), weight.getOrElse(0))
+                        GraphSerialization.writeToFile(finalGraph, finalGraphName)
+                        Response.json("The graph has been succesfully updated !")
+                    }
+                    case Left(value) => Response.json("The graph has not been found")
+                }
+            }
+        } },
+
+        Method.GET / "remove-edge" -> handler { (req: Request) => {
+            val graphName = req.queryParam("name")
+            val startNode = req.queryParam("startNode").map(_.toInt)
+            val endNode = req.queryParam("endNode").map(_.toInt)
+            if (graphName.isEmpty) {
+                Response.json("You must provide a graph name")
+            } else if (startNode.isEmpty) {
+                Response.json("You must provide a valid start node !")
+            } else if (endNode.isEmpty) {
+                Response.json("You must provide a valid end node !")
+            } else {
+                val finalGraphName = graphName.getOrElse("")
+                GraphSerialization.readFromFile(finalGraphName) match {
+                    case Right(value) => {
+                        val finalGraph = value.removeEdge(startNode.getOrElse(0), endNode.getOrElse(0))
+                        GraphSerialization.writeToFile(finalGraph, finalGraphName)
+                        Response.json("The graph has been succesfully updated !")
+                    }
+                    case Left(value) => Response.json("The graph has not been found")
+                }
+            }
         } }
     )
 
