@@ -1,14 +1,7 @@
 package fr.scalaproject.app
 
-import fr.scalaproject.core._
 import zio._
 import zio.http._
-import fr.scalaproject.core.GraphSerialization.fromJSON
-import fr.scalaproject.core._
-import fr.scalaproject.core.GraphSerialization.writeToFile
-import fr.scalaproject.core.GraphOperations._
-import fr.scalaproject.core.GraphVisualization.graphToDOT
-import java.nio.charset.Charset
 
 object Application extends ZIOAppDefault {
     val routes: Routes[Any, Response] = Routes(
