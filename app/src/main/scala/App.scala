@@ -3,13 +3,15 @@ package fr.scalaproject.app
 import fr.scalaproject.core._
 import zio._
 import zio.http._
+import fr.scalaproject.core.GraphSerialization.fromJSON
+import fr.scalaproject.core._
+import fr.scalaproject.core.GraphSerialization.writeToFile
 import fr.scalaproject.core.GraphOperations._
 import fr.scalaproject.core.GraphVisualization.graphToDOT
-import spray.json.DefaultJsonProtocol
-import spray.json._
+import java.nio.charset.Charset
 
 object Application extends ZIOAppDefault {
-    val routes = Routes(
+    val routes: Routes[Any, Response] = Routes(
         Method.GET / "bfs" -> handler { (req: Request) =>
            val graphName = req.queryParam("name")
             val beginId = req.queryParam("beginId").map(_.toInt)
@@ -144,7 +146,7 @@ object Application extends ZIOAppDefault {
             }
         } },
 
-        Method.GET / "remove-vertex" -> handler { (req: Request) => {
+        Method.DELETE / "remove-vertex" -> handler { (req: Request) => {
             val graphName = req.queryParam("name")
             val nodeToRemove = req.queryParam("node").map(_.toInt)
             if (graphName.isEmpty) {
@@ -188,7 +190,7 @@ object Application extends ZIOAppDefault {
             }
         } },
 
-        Method.GET / "remove-edge" -> handler { (req: Request) => {
+        Method.DELETE / "remove-edge" -> handler { (req: Request) => {
             val graphName = req.queryParam("name")
             val startNode = req.queryParam("startNode").map(_.toInt)
             val endNode = req.queryParam("endNode").map(_.toInt)
@@ -209,8 +211,24 @@ object Application extends ZIOAppDefault {
                     case Left(value) => Response.json("The graph has not been found")
                 }
             }
-        } }
+        } },
+
+        Method.POST / "graph" -> handler { (req: Request) =>
+            req.body.asString(Charsets.Utf8)
+                .catchAll(_ => ZIO.succeed("Error reading request body"))
+                .map(fromJSON)
+                .map(graph => {
+                    graph match {
+                        case Left(value) => Response.json("Something went wrong !")
+                        case Right(value) => {
+                            val graphName = value.graphInformations.name
+                            writeToFile(value, graphName)
+                            Response.json("Graph successfully created")
+                        }
+                    }
+                })
+        }
     )
 
-    def run = Server.serve(routes).provide(Server.defaultWithPort(8084))
+    override val run = Server.serve(routes).provide(Server.defaultWithPort(8084))
 }
