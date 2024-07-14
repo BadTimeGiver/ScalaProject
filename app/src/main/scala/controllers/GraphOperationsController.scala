@@ -81,7 +81,11 @@ def dijkstraController(req: Request): Response = {
     } else {
         val finalGraphName = graphName.getOrElse("")
         GraphSerialization.readFromFile(finalGraphName) match {
-            case Right(value) => Response.json(s"Result : ${dijkstra(value, beginId.getOrElse(0)).mkString(", ")}")
+            case Right(value) => {
+                val finalBeginNode = beginId.getOrElse(0)
+                if (!value.hasNode(finalBeginNode)) Response.json("The begin node provided doesn't exist")
+                else Response.json(dijkstra(value, beginId.getOrElse(0)).mkString(", "))
+            }
             case Left(value) => Response.json("The graph has not been found")
         }
     }
