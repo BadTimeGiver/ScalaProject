@@ -115,8 +115,12 @@ def createGraphController(req: Request) = {
                 case Left(value) => Response.json("Something went wrong !")
                 case Right(value) => {
                     val graphName = value.graphInformations.name
-                    writeToFile(value, graphName)
-                    Response.json("Graph successfully created")
+                    if(graphName.isEmpty) {
+                        Response.json("A name is required")
+                    } else {
+                        writeToFile(value, graphName)
+                        Response.json("Graph successfully created")
+                    }
                 }
             }
         })
