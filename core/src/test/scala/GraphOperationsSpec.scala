@@ -250,4 +250,59 @@ class GraphOperationsSpec extends AnyFlatSpec with Matchers {
             (3, 3) -> 0,
         )
   }
+
+    "dijkstra" should "compute the shortest paths from the start node in a simple weighted graph" in {
+        val graph = Graph(
+            GraphInformations("TestGraph", isWeighted = true, isBidirectional = false),
+            List(
+                Node(1, List(Edge(2, 1), Edge(3, 4))),
+                Node(2, List(Edge(3, 2), Edge(4, 5))),
+                Node(3, List(Edge(4, 1))),
+                Node(4, List())
+            )
+        )
+
+        val result = GraphOperations.dijkstra(graph, 1)
+        result shouldBe Map(
+            1 -> 0,
+            2 -> 1,
+            3 -> 3,
+            4 -> 4
+        )
+    }
+
+    it should "return the shortest paths for a graph with disconnected components" in {
+        val graph = Graph(
+            GraphInformations("TestGraph", isWeighted = true, isBidirectional = false),
+            List(
+                Node(1, List(Edge(2, 1))),
+                Node(2, List()),
+                Node(3, List(Edge(4, 2))),
+                Node(4, List())
+            )
+        )
+
+        val result = GraphOperations.dijkstra(graph, 1)
+        result shouldBe Map(1 -> 0, 2 -> 1)
+    }
+
+    it should "handle graphs with positive cycles correctly" in {
+        val graph = Graph(
+            GraphInformations("TestGraph", isWeighted = true, isBidirectional = false),
+            List(
+                Node(1, List(Edge(2, 1))),
+                Node(2, List(Edge(3, 2))),
+                Node(3, List(Edge(1, 3))),
+                Node(4, List(Edge(3, 1)))
+            )
+        )
+
+        val result = GraphOperations.dijkstra(graph, 4)
+        result shouldBe Map(
+            4 -> 0,
+            3 -> 1,
+            1 -> 4,
+            2 -> 5
+        )
+    }
 }
