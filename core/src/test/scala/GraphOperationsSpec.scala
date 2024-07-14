@@ -206,4 +206,48 @@ class GraphOperationsSpec extends AnyFlatSpec with Matchers {
         val result = GraphOperations.topologicalSort(graph)
         result shouldBe List()
     }
+
+    "floydWarshall" should "compute shortest paths for a simple weighted graph" in {
+        val graph = Graph(
+            GraphInformations("TestGraph", isWeighted = true, isBidirectional = true),
+            List(
+                Node(1, List(Edge(2, 1), Edge(3, 4))),
+                Node(2, List(Edge(3, 2), Edge(4, 5))),
+                Node(3, List(Edge(4, 1))),
+                Node(4, List())
+            )
+        )
+
+        val result = GraphOperations.floyd(graph)
+        result shouldBe Map(
+            (1, 1) -> 0,
+            (1, 2) -> 1,
+            (1, 3) -> 3,
+            (1, 4) -> 4,
+            (2, 2) -> 0,
+            (2, 3) -> 2,
+            (2, 4) -> 3,
+            (3, 3) -> 0,
+            (3, 4) -> 1,
+            (4, 4) -> 0,
+        )
+  }
+
+    it should "handle a graph with no edges correctly" in {
+        val graph = Graph(
+            GraphInformations("TestGraph", isWeighted = true, isBidirectional = true),
+            List(
+                Node(1, List()),
+                Node(2, List()),
+                Node(3, List())
+            )
+        )
+
+        val result = GraphOperations.floyd(graph)
+        result shouldBe Map(
+            (1, 1) -> 0,
+            (2, 2) -> 0,
+            (3, 3) -> 0,
+        )
+  }
 }
