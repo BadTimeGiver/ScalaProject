@@ -14,7 +14,11 @@ def bfsController(req: Request): Response = {
     } else {
         val finalGraphName = graphName.getOrElse("")
         GraphSerialization.readFromFile(finalGraphName) match {
-            case Right(value) => Response.json(dfs(value, beginId.getOrElse(0)).mkString(", "))
+            case Right(value) => {
+                val finalBeginNode = beginId.getOrElse(0)
+                if (!value.hasNode(finalBeginNode)) Response.json("The begin node provided doesn't exist")
+                else Response.json(dfs(value, finalBeginNode).mkString(", "))
+            }
             case Left(value) => Response.json("The graph has not been found")
         }
     }
@@ -30,7 +34,11 @@ def dfsController(req: Request): Response = {
     } else {
         val finalGraphName = graphName.getOrElse("")
         GraphSerialization.readFromFile(finalGraphName) match {
-            case Right(value) => Response.json(dfs(value, beginId.getOrElse(0)).mkString(", "))
+            case Right(value) => {
+                val finalBeginNode = beginId.getOrElse(0)
+                if (!value.hasNode(finalBeginNode)) Response.json("The begin node provided doesn't exist")
+                else Response.json(dfs(value, beginId.getOrElse(0)).mkString(", "))
+            }
             case Left(value) => Response.json("The graph has not been found")
         }
     }
