@@ -50,9 +50,14 @@ def removeVertexController(req: Request): Response = {
         val finalGraphName = graphName.getOrElse("")
         GraphSerialization.readFromFile(finalGraphName) match {
             case Right(value) => {
-                val finalGraph = value.removeVertex(nodeToRemove.getOrElse(0))
-                GraphSerialization.writeToFile(finalGraph, finalGraphName)
-                Response.json("The graph has been succesfully updated !")
+                val finalNodeToRemove = nodeToRemove.getOrElse(0)
+                if(value.hasNode(finalNodeToRemove)) {
+                    val finalGraph = value.removeVertex(finalNodeToRemove)
+                    GraphSerialization.writeToFile(finalGraph, finalGraphName)
+                    Response.json("The graph has been succesfully updated !")
+                } else {
+                    Response.json("The graph does not have the vertex to remove !")
+                }
             }
             case Left(value) => Response.json("The graph has not been found")
         }
