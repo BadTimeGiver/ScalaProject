@@ -37,7 +37,7 @@ object GraphSerialization {
     def readFromFile(graphName: String): Either[String, Graph] = {
         val source = Using(Source.fromFile(s"graph/${graphName}.json"))(_.mkString)
         source match {
-            case Failure(value) => throw new IllegalStateException
+            case Failure(value) => Left("Graph not found")
             case Success(value) => fromJSON(value)
         }
     }
