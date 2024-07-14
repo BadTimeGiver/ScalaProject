@@ -30,9 +30,14 @@ def addVertexController(req: Request): Response = {
         val finalGraphName = graphName.getOrElse("")
         GraphSerialization.readFromFile(finalGraphName) match {
             case Right(value) => {
-                val finalGraph = value.addVertex(nodeToAdd.getOrElse(0))
-                GraphSerialization.writeToFile(finalGraph, finalGraphName)
-                Response.json("The graph has been succesfully updated !")
+                val finalNodeToAdd = nodeToAdd.getOrElse(0)
+                if(value.hasNode(finalNodeToAdd)) {
+                    Response.json("This node already exists in the graph !")
+                } else {
+                    val finalGraph = value.addVertex(finalNodeToAdd)
+                    GraphSerialization.writeToFile(finalGraph, finalGraphName)
+                    Response.json("The graph has been succesfully updated !")
+                }
             }
             case Left(value) => Response.json("The graph has not been found")
         }
@@ -79,9 +84,15 @@ def addEdgeController(req: Request): Response = {
         val finalGraphName = graphName.getOrElse("")
         GraphSerialization.readFromFile(finalGraphName) match {
             case Right(value) => {
-                val finalGraph = value.addEdge(startNode.getOrElse(0), endNode.getOrElse(0), weight.getOrElse(0))
-                GraphSerialization.writeToFile(finalGraph, finalGraphName)
-                Response.json("The graph has been succesfully updated !")
+                val finalStartNode = startNode.getOrElse(0)
+                val finalEndNode = endNode.getOrElse(0)
+                if (value.hasVertex(finalStartNode, finalEndNode)) {
+                    Response.json("The edge already exists in the graph !")
+                } else {
+                    val finalGraph = value.addEdge(finalStartNode, finalEndNode, weight.getOrElse(0))
+                    GraphSerialization.writeToFile(finalGraph, finalGraphName)
+                    Response.json("The graph has been succesfully updated !")
+                }
             }
             case Left(value) => Response.json("The graph has not been found")
         }
@@ -102,9 +113,15 @@ def removeEdgeController(req: Request): Response = {
         val finalGraphName = graphName.getOrElse("")
         GraphSerialization.readFromFile(finalGraphName) match {
             case Right(value) => {
-                val finalGraph = value.removeEdge(startNode.getOrElse(0), endNode.getOrElse(0))
-                GraphSerialization.writeToFile(finalGraph, finalGraphName)
-                Response.json("The graph has been succesfully updated !")
+                val finalStartNode = startNode.getOrElse(0)
+                val finalEndNode = endNode.getOrElse(0)
+                if (!value.hasVertex(finalStartNode, finalEndNode)) {
+                    Response.json("The edge doesn't exist in the graph !")
+                } else {
+                    val finalGraph = value.removeEdge(startNode.getOrElse(0), endNode.getOrElse(0))
+                    GraphSerialization.writeToFile(finalGraph, finalGraphName)
+                    Response.json("The graph has been succesfully updated !")
+                }
             }
             case Left(value) => Response.json("The graph has not been found")
         }

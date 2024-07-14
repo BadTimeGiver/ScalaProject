@@ -9,6 +9,7 @@ case class GraphInformations(name: String, isWeighted: Boolean, isBidirectional:
 case class Graph(graphInformations: GraphInformations, nodes: List[Node]) {
     private val nodeMap: Map[Int, Node] = nodes.map(node => node.id -> node).toMap
 
+    def hasVertex(startId: Int, endId: Int): Boolean = nodeMap(startId).edges.exists({ edge => edge.to == endId })
     def hasNode(id: Int): Boolean = nodeMap.contains(id)
 
     def addVertex(id: Int): Graph = {
