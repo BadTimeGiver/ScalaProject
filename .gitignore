@@ -11,3 +11,4 @@ project/
 *.dot
 *.png
 *.json
+!PostmanCollection.json

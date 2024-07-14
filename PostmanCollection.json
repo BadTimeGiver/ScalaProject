@@ -1,0 +1,1177 @@
+{
+	"info": {
+		"_postman_id": "72e865b5-6004-48eb-98b5-62bac50af924",
+		"name": "Scala Project",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20647845"
+	},
+	"item": [
+		{
+			"name": "Graph",
+			"item": [
+				{
+					"name": "Create Graph",
+					"item": [
+						{
+							"name": "Create Graph",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"graphInformations\" : {\n    \"name\" : \"TestGraph\",\n    \"isWeighted\" : false,\n    \"isBidirectional\" : false\n  },\n  \"nodes\" : [\n    {\n      \"id\" : 1,\n      \"edges\" : [\n        {\n          \"to\" : 2,\n          \"weight\" : 3\n        }\n      ]\n    },\n    {\n      \"id\" : 2,\n      \"edges\" : [\n        {\n          \"to\" : 1,\n          \"weight\" : 3\n        },\n        {\n          \"to\" : 3,\n          \"weight\" : 5\n        }\n      ]\n    },\n    {\n      \"id\" : 3,\n      \"edges\" : [\n        {\n          \"to\" : 1,\n          \"weight\" : 2\n        }\n      ]\n    }\n  ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8084/graph",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"graph"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Graph - Bad type for an attribute",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"graphInformations\" : {\n    \"name\" : \"TestGraph\",\n    \"isWeighted\" : \"false\",\n    \"isBidirectional\" : false\n  },\n  \"nodes\" : [\n    {\n      \"id\" : 1,\n      \"edges\" : [\n        {\n          \"to\" : 2,\n          \"weight\" : 3\n        }\n      ]\n    },\n    {\n      \"id\" : 2,\n      \"edges\" : [\n        {\n          \"to\" : 1,\n          \"weight\" : 3\n        },\n        {\n          \"to\" : 3,\n          \"weight\" : 5\n        }\n      ]\n    },\n    {\n      \"id\" : 3,\n      \"edges\" : [\n        {\n          \"to\" : 1,\n          \"weight\" : 2\n        }\n      ]\n    }\n  ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8084/graph",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"graph"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Graph - Empty name",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"graphInformations\" : {\n    \"name\" : \"\",\n    \"isWeighted\" : false,\n    \"isBidirectional\" : false\n  },\n  \"nodes\" : [\n    {\n      \"id\" : 1,\n      \"edges\" : [\n        {\n          \"to\" : 2,\n          \"weight\" : 3\n        }\n      ]\n    },\n    {\n      \"id\" : 2,\n      \"edges\" : [\n        {\n          \"to\" : 1,\n          \"weight\" : 3\n        },\n        {\n          \"to\" : 3,\n          \"weight\" : 5\n        }\n      ]\n    },\n    {\n      \"id\" : 3,\n      \"edges\" : [\n        {\n          \"to\" : 1,\n          \"weight\" : 2\n        }\n      ]\n    }\n  ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8084/graph",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"graph"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Graph - Wrong graph",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"graphInformations\" : {\n    \"name\" : \"TestGraph\",\n    \"isWeighted\" : false,\n    \"isBidirectional\" : false\n  }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8084/graph",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"graph"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "DisplayGraph",
+					"item": [
+						{
+							"name": "Display Graph",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8084/display-graph?name=Test2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"display-graph"
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "Test2"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Display Graph - Don't exist",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8084/display-graph?name=Test45&",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"display-graph"
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "Test45"
+										},
+										{
+											"key": "",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Display Graph - Graph name miss",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8084/display-graph",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"display-graph"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Add edge",
+					"item": [
+						{
+							"name": "Add Edge",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8084/add-edge?startNode=2&name=Test2&endNode=1&weight=3",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"add-edge"
+									],
+									"query": [
+										{
+											"key": "startNode",
+											"value": "2"
+										},
+										{
+											"key": "name",
+											"value": "Test2"
+										},
+										{
+											"key": "endNode",
+											"value": "1"
+										},
+										{
+											"key": "weight",
+											"value": "3"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Remove edge",
+					"item": [
+						{
+							"name": "Remove Edge",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8084/remove-edge?name=Test2&startNode=2&endNode=1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"remove-edge"
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "Test2"
+										},
+										{
+											"key": "startNode",
+											"value": "2"
+										},
+										{
+											"key": "endNode",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Add vertex",
+					"item": [
+						{
+							"name": "New Request",
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Remove vertex",
+					"item": [
+						{
+							"name": "Remove vertex",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8084/remove-vertex?name=Test2&node=12",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"remove-vertex"
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "Test2"
+										},
+										{
+											"key": "node",
+											"value": "12"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Remove vertex - Not valid graph name",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8084/remove-vertex?name=Test45&node=12",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"remove-vertex"
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "Test45"
+										},
+										{
+											"key": "node",
+											"value": "12"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Remove vertex - No graph name",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8084/remove-vertex?node=12",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"remove-vertex"
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "Test2",
+											"disabled": true
+										},
+										{
+											"key": "node",
+											"value": "12"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Remove vertex - No valid vertex to remove",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8084/remove-vertex?name=Test2&node=12",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"remove-vertex"
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "Test2"
+										},
+										{
+											"key": "node",
+											"value": "12"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Remove vertex - No vertex to remove",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8084/remove-vertex?name=Test2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"remove-vertex"
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "Test2"
+										},
+										{
+											"key": "node",
+											"value": "12",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Graph Operations",
+			"item": [
+				{
+					"name": "HasCycle",
+					"item": [
+						{
+							"name": "HasCycle",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8084/has_cycle?name=Test2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"has_cycle"
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "Test2"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "HasCycle - Don't exist",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8084/has_cycle?name=Test45",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"has_cycle"
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "Test45"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "HasCycle - Graph name miss",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8084/has_cycle",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"has_cycle"
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "Test2",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"description": "All the test for the request linked to the has cycle algorithm"
+				},
+				{
+					"name": "Topological Order",
+					"item": [
+						{
+							"name": "Topological Order",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8084/topological-sort?name=Tes",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"topological-sort"
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "Tes"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "TopologicalOrder - Don't exist Copy",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8084/topological-sort?name=Test45",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"topological-sort"
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "Test45"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Topological Sort - Graph name miss",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8084/topological-sort",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"topological-sort"
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "Test2",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Dijkstra",
+					"item": [
+						{
+							"name": "Dijkstra",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8084/dijkstra?name=Test2&beginId=1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"dijkstra"
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "Test2"
+										},
+										{
+											"key": "beginId",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Dijkstra - Don't exist",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8084/dijkstra?name=Test45&beginId=1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"dijkstra"
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "Test45"
+										},
+										{
+											"key": "beginId",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Dijkstra - Graph name miss",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8084/dijkstra?beginId=1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"dijkstra"
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "Test45",
+											"disabled": true
+										},
+										{
+											"key": "beginId",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Dijkstra - Begin node miss",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8084/dijkstra?name=Test2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"dijkstra"
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "Test2"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Dijkstra - Wrong begin node",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8084/dijkstra?name=Test2&beginId=45",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"dijkstra"
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "Test2"
+										},
+										{
+											"key": "beginId",
+											"value": "45"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "BFS",
+					"item": [
+						{
+							"name": "BFS",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "text"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8084/bfs?name=Test2&beginId=1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"bfs"
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "Test2"
+										},
+										{
+											"key": "beginId",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "BFS - Don't exist",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8084/has_cycle?name=Test45&beginId=1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"has_cycle"
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "Test45"
+										},
+										{
+											"key": "beginId",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "BFS - Graph name miss",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8084/has_cycle?beginId=1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"has_cycle"
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "Test45",
+											"disabled": true
+										},
+										{
+											"key": "beginId",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "BFS - Begin node miss",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8084/bfs?name=Test2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"bfs"
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "Test2"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "BFS - Wrong begin node",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8084/bfs?name=Test2&beginId=45",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"bfs"
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "Test2"
+										},
+										{
+											"key": "beginId",
+											"value": "45"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "DFS",
+					"item": [
+						{
+							"name": "DFS",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "text"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8084/dfs?name=Test2&beginId=1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"dfs"
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "Test2"
+										},
+										{
+											"key": "beginId",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DFS - Don't exist",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8084/dfs?name=Test45&beginId=1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"dfs"
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "Test45"
+										},
+										{
+											"key": "beginId",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DFS - Graph name miss",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8084/dfs?beginId=1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"dfs"
+									],
+									"query": [
+										{
+											"key": "beginId",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DFS - Begin node miss",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8084/dfs?name=Test2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"dfs"
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "Test2"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DFS - Wrong begin node",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8084/dfs?name=Test2&beginId=45",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"dfs"
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "Test2"
+										},
+										{
+											"key": "beginId",
+											"value": "45"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Floyd",
+					"item": [
+						{
+							"name": "Floyd-Warshall",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8084/floyd-warshall?name=Test2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"floyd-warshall"
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "Test2"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Floyd-Warshall - Don't exist",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8084/has_cycle?name=Test45",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"has_cycle"
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "Test45"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Floyd-Warshall - Graph name miss Copy",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8084/floyd-warshall",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"floyd-warshall"
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "Test2",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			],
+			"description": "All the test for the request linked to the Graph Operations"
+		}
+	]
+}
