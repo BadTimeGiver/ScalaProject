@@ -5,32 +5,33 @@ import zio.http._
 import fr.scalaproject.core._
 import fr.scalaproject.core.GraphVisualization._
 import fr.scalaproject.core.GraphSerialization._
+import zio.json._
 
-def displayGraphController(req: Request): Response = {
+def displayGraphController[T: JsonDecoder : JsonEncoder](req: Request): Response = {
     val graphName = req.queryParam("name")
     if (graphName.isEmpty) {
         Response.json("You must provide a graph name")
     } else {
         val finalGraphName = graphName.getOrElse("")
-        GraphSerialization.readFromFile(finalGraphName) match {
+        GraphSerialization.readFromFile[T](finalGraphName) match {
             case Right(value) => Response.json(s"Here is the graph ${finalGraphName} :\n${graphToDOT(value)}")
             case Left(value) => Response.json("The graph has not been found")
         }
     }
 }
 
-def addVertexController(req: Request): Response = {
+def addVertexController[T: JsonDecoder : JsonEncoder](req: Request): Response = {
     val graphName = req.queryParam("name")
-    val nodeToAdd = req.queryParam("newNode").map(_.toInt)
+    val nodeToAdd = req.queryParam("newNode").map(_.asInstanceOf[T])
     if (graphName.isEmpty) {
         Response.json("You must provide a graph name")
     } else if (nodeToAdd.isEmpty) {
         Response.json("You must provide a node to add")
     } else {
         val finalGraphName = graphName.getOrElse("")
-        GraphSerialization.readFromFile(finalGraphName) match {
+        GraphSerialization.readFromFile[T](finalGraphName) match {
             case Right(value) => {
-                val finalNodeToAdd = nodeToAdd.getOrElse(0)
+                val finalNodeToAdd = nodeToAdd.getOrElse(throw new RuntimeException("Invalid node"))
                 if(value.hasNode(finalNodeToAdd)) {
                     Response.json("This node already exists in the graph !")
                 } else {
@@ -44,18 +45,18 @@ def addVertexController(req: Request): Response = {
     }
 }
 
-def removeVertexController(req: Request): Response = {
+def removeVertexController[T: JsonDecoder : JsonEncoder](req: Request): Response = {
     val graphName = req.queryParam("name")
-    val nodeToRemove = req.queryParam("node").map(_.toInt)
+    val nodeToRemove = req.queryParam("node").map(_.asInstanceOf[T])
     if (graphName.isEmpty) {
         Response.json("You must provide a graph name")
     } else if (nodeToRemove.isEmpty) {
         Response.json("You must provide a node to remove")
     } else {
         val finalGraphName = graphName.getOrElse("")
-        GraphSerialization.readFromFile(finalGraphName) match {
+        GraphSerialization.readFromFile[T](finalGraphName) match {
             case Right(value) => {
-                val finalNodeToRemove = nodeToRemove.getOrElse(0)
+                val finalNodeToRemove = nodeToRemove.getOrElse(throw new RuntimeException("Invalid node"))
                 if(value.hasNode(finalNodeToRemove)) {
                     val finalGraph = value.removeVertex(finalNodeToRemove)
                     GraphSerialization.writeToFile(finalGraph, finalGraphName)
@@ -69,10 +70,10 @@ def removeVertexController(req: Request): Response = {
     }
 }
 
-def addEdgeController(req: Request): Response = {
+def addEdgeController[T: JsonDecoder : JsonEncoder](req: Request): Response = {
     val graphName = req.queryParam("name")
-    val startNode = req.queryParam("startNode").map(_.toInt)
-    val endNode = req.queryParam("endNode").map(_.toInt)
+    val startNode = req.queryParam("startNode").map(_.asInstanceOf[T])
+    val endNode = req.queryParam("endNode").map(_.asInstanceOf[T])
     val weight = req.queryParam("weight").map(_.toInt)
     if (graphName.isEmpty) {
         Response.json("You must provide a graph name")
@@ -82,10 +83,10 @@ def addEdgeController(req: Request): Response = {
         Response.json("You must provide a valid end node !")
     } else {
         val finalGraphName = graphName.getOrElse("")
-        GraphSerialization.readFromFile(finalGraphName) match {
+        GraphSerialization.readFromFile[T](finalGraphName) match {
             case Right(value) => {
-                val finalStartNode = startNode.getOrElse(0)
-                val finalEndNode = endNode.getOrElse(0)
+                val finalStartNode = startNode.getOrElse(throw new RuntimeException("Invalid start node"))
+                val finalEndNode = endNode.getOrElse(throw new RuntimeException("Invalid end node"))
                 if (value.hasVertex(finalStartNode, finalEndNode)) {
                     Response.json("The edge already exists in the graph !")
                 } else {
@@ -99,10 +100,10 @@ def addEdgeController(req: Request): Response = {
     }
 }
 
-def removeEdgeController(req: Request): Response = {
+def removeEdgeController[T: JsonDecoder : JsonEncoder](req: Request): Response = {
     val graphName = req.queryParam("name")
-    val startNode = req.queryParam("startNode").map(_.toInt)
-    val endNode = req.queryParam("endNode").map(_.toInt)
+    val startNode = req.queryParam("startNode").map(_.asInstanceOf[T])
+    val endNode = req.queryParam("endNode").map(_.asInstanceOf[T])
     if (graphName.isEmpty) {
         Response.json("You must provide a graph name")
     } else if (startNode.isEmpty) {
@@ -111,14 +112,14 @@ def removeEdgeController(req: Request): Response = {
         Response.json("You must provide a valid end node !")
     } else {
         val finalGraphName = graphName.getOrElse("")
-        GraphSerialization.readFromFile(finalGraphName) match {
+        GraphSerialization.readFromFile[T](finalGraphName) match {
             case Right(value) => {
-                val finalStartNode = startNode.getOrElse(0)
-                val finalEndNode = endNode.getOrElse(0)
+                val finalStartNode = startNode.getOrElse(throw new RuntimeException("Invalid start node"))
+                val finalEndNode = endNode.getOrElse(throw new RuntimeException("Invalid end node"))
                 if (!value.hasVertex(finalStartNode, finalEndNode)) {
                     Response.json("The edge doesn't exist in the graph !")
                 } else {
-                    val finalGraph = value.removeEdge(startNode.getOrElse(0), endNode.getOrElse(0))
+                    val finalGraph = value.removeEdge(finalStartNode, finalEndNode)
                     GraphSerialization.writeToFile(finalGraph, finalGraphName)
                     Response.json("The graph has been succesfully updated !")
                 }
@@ -128,10 +129,10 @@ def removeEdgeController(req: Request): Response = {
     }
 }
 
-def createGraphController(req: Request) = {
+def createGraphController[T: JsonDecoder : JsonEncoder](req: Request): Task[Response] = {
     req.body.asString(Charsets.Utf8)
         .catchAll(_ => ZIO.succeed("Error reading request body"))
-        .map(fromJSON)
+        .map(fromJSON[T])
         .map(graph => {
             graph match {
                 case Left(value) => Response.json("Something went wrong !")

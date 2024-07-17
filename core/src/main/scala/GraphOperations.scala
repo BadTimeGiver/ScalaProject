@@ -4,9 +4,9 @@ import scala.collection.immutable.*
 import scala.annotation.tailrec
 
 object GraphOperations {
-    def bfs(graph: Graph, startId: Int): List[Int] = {
+    def bfs[T](graph: Graph[T], startId: T): List[T] = {
         @tailrec
-        def bfsRecursive( nodeMap: Map[Int, Node], queue: List[Int], visited: Set[Int], bfsOrder: List[Int]): List[Int] = {
+        def bfsRecursive(nodeMap: Map[T, Node[T]], queue: List[T], visited: Set[T], bfsOrder: List[T]): List[T] = {
             queue match {
                 case Nil => bfsOrder
                 case currentId :: rest =>
@@ -26,11 +26,11 @@ object GraphOperations {
         }
     }
 
-    def dfs(graph: Graph, startId: Int): List[Int] = {
+    def dfs[T](graph: Graph[T], startId: T): List[T] = {
         val nodeMap = graph.nodes.map(node => node.id -> node).toMap
 
         @tailrec
-        def dfsRecursive(stack: List[Int],visited: Set[Int],dfsOrder: List[Int]): List[Int] = {
+        def dfsRecursive(stack: List[T], visited: Set[T], dfsOrder: List[T]): List[T] = {
             stack match {
                 case Nil => dfsOrder
                 case currentId :: rest =>
@@ -51,13 +51,13 @@ object GraphOperations {
         }
     }
 
-    def dijkstra(graph: Graph, startId: Int): Map[Int, Int] = {
+    def dijkstra[T](graph: Graph[T], startId: T)(implicit ord: Ordering[T]): Map[T, Int] = {
         val nodeMap = graph.nodes.map(node => node.id -> node).toMap
-        val initialDistances: Map[Int, Int] = ListMap().withDefaultValue(Int.MaxValue).updated(startId, 0)
-        val initialPriorityQueue: SortedSet[(Int, Int)] = SortedSet((startId, 0))(Ordering.by(-_._2))
+        val initialDistances: Map[T, Int] = Map().withDefaultValue(Int.MaxValue).updated(startId, 0)
+        val initialPriorityQueue: SortedSet[(T, Int)] = SortedSet((startId, 0))(Ordering.by(-_._2))
 
         @tailrec
-        def loop(distances: Map[Int, Int], priorityQueue: SortedSet[(Int, Int)]): Map[Int, Int] = {
+        def loop(distances: Map[T, Int], priorityQueue: SortedSet[(T, Int)]): Map[T, Int] = {
             if (priorityQueue.isEmpty) {
                 distances
             } else {
@@ -84,7 +84,7 @@ object GraphOperations {
         loop(initialDistances, initialPriorityQueue)
     }
 
-    def floyd(graph: Graph): Map[(Int, Int), Int] = {
+    def floyd[T](graph: Graph[T])(implicit ord: Ordering[T]): Map[(T, T), Int] = {
         val nodeMap = graph.nodes.map(node => node.id -> node).toMap
         val nodeIds = nodeMap.keys.toList
         val initialDistances = (for {
@@ -96,7 +96,7 @@ object GraphOperations {
             distances.updated((id, id), 0)
         }
 
-        def updateDistances(d: Map[(Int, Int), Int], i: Int, j: Int, k: Int): Map[(Int, Int), Int] = {
+        def updateDistances(d: Map[(T, T), Int], i: T, j: T, k: T): Map[(T, T), Int] = {
             val distIK = d((i, k))
             val distKJ = d((k, j))
             if (distIK != Int.MaxValue && distKJ != Int.MaxValue) {
@@ -123,15 +123,15 @@ object GraphOperations {
         finalDistances
     }
 
-    def topologicalSort(graph: Graph): List[Int] = {
+    def topologicalSort[T](graph: Graph[T])(implicit ord: Ordering[T]): List[T] = {
         if (hasCycle(graph)) {
             List()
         } else {
             val nodeMap = graph.nodes.map(node => node.id -> node).toMap
-            val initialVisited = Set[Int]()
-            val initialStack = List[Int]()
+            val initialVisited = Set[T]()
+            val initialStack = List[T]()
 
-            def visit(node: Node, visited: Set[Int], stack: List[Int]): (Set[Int], List[Int]) = {
+            def visit(node: Node[T], visited: Set[T], stack: List[T]): (Set[T], List[T]) = {
                 if (!visited.contains(node.id)) {
                     val newVisited = visited + node.id
                     val (finalVisited, updatedStack) = node.edges.foldLeft((newVisited, stack)) {
@@ -150,10 +150,10 @@ object GraphOperations {
         }
     }
 
-    def hasCycle(graph: Graph): Boolean = {
+    def hasCycle[T](graph: Graph[T])(implicit ord: Ordering[T]): Boolean = {
         val nodeMap = graph.nodes.map(node => node.id -> node).toMap
 
-        def visit(nodeId: Int, visited: Set[Int], recStack: Set[Int]): (Boolean, Set[Int], Set[Int]) = {
+        def visit(nodeId: T, visited: Set[T], recStack: Set[T]): (Boolean, Set[T], Set[T]) = {
             if (!visited.contains(nodeId)) {
                 val newVisited = visited + nodeId
                 val newRecStack = recStack + nodeId

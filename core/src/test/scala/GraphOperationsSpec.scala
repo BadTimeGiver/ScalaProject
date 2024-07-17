@@ -4,8 +4,9 @@ import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
 
 class GraphOperationsSpec extends AnyFlatSpec with Matchers {
+
     "bfs" should "return the correct BFS order" in {
-        val graph = Graph(
+        val graph = Graph[Int](
             GraphInformations("TestGraph", isWeighted = false, isBidirectional = false),
             List(
                 Node(1, List(Edge(2, 0), Edge(3, 0))),
@@ -20,7 +21,7 @@ class GraphOperationsSpec extends AnyFlatSpec with Matchers {
     }
 
     it should "not visit nodes in disconnected components" in {
-        val graph = Graph(
+        val graph = Graph[Int](
             GraphInformations("TestGraph", isWeighted = false, isBidirectional = false),
             List(
                 Node(1, List(Edge(2, 0))),
@@ -36,7 +37,7 @@ class GraphOperationsSpec extends AnyFlatSpec with Matchers {
     }
 
     it should "handle cycles correctly and not visit nodes multiple times" in {
-        val graph = Graph(
+        val graph = Graph[Int](
             GraphInformations("TestGraph", isWeighted = false, isBidirectional = false),
             List(
                 Node(1, List(Edge(2, 0), Edge(3, 0))),
@@ -51,7 +52,7 @@ class GraphOperationsSpec extends AnyFlatSpec with Matchers {
     }
 
     it should "return an empty list if the start node is not in the graph" in {
-        val graph = Graph(
+        val graph = Graph[Int](
             GraphInformations("TestGraph", isWeighted = false, isBidirectional = false),
             List(
                 Node(1, List(Edge(2, 0))),
@@ -65,7 +66,7 @@ class GraphOperationsSpec extends AnyFlatSpec with Matchers {
     }
 
     "dfs" should "return the correct DFS order" in {
-        val graph = Graph(
+        val graph = Graph[Int](
             GraphInformations("TestGraph", isWeighted = false, isBidirectional = false),
             List(
                 Node(1, List(Edge(2, 0), Edge(3, 0))),
@@ -80,7 +81,7 @@ class GraphOperationsSpec extends AnyFlatSpec with Matchers {
     }
 
     it should "not visit nodes in disconnected components" in {
-        val graph = Graph(
+        val graph = Graph[Int](
             GraphInformations("TestGraph", isWeighted = false, isBidirectional = false),
             List(
                 Node(1, List(Edge(2, 0))),
@@ -96,7 +97,7 @@ class GraphOperationsSpec extends AnyFlatSpec with Matchers {
     }
 
     it should "handle cycles correctly and not visit nodes multiple times" in {
-        val graph = Graph(
+        val graph = Graph[Int](
             GraphInformations("TestGraph", isWeighted = false, isBidirectional = false),
             List(
                 Node(1, List(Edge(2, 0), Edge(3, 0))),
@@ -111,7 +112,7 @@ class GraphOperationsSpec extends AnyFlatSpec with Matchers {
     }
 
     it should "return an empty list if the start node is not in the graph" in {
-        val graph = Graph(
+        val graph = Graph[Int](
             GraphInformations("TestGraph", isWeighted = false, isBidirectional = false),
             List(
                 Node(1, List(Edge(2, 0))),
@@ -125,7 +126,7 @@ class GraphOperationsSpec extends AnyFlatSpec with Matchers {
     }
 
     "hasCycle" should "detect a cycle in the graph" in {
-        val graph = Graph(
+        val graph = Graph[Int](
             GraphInformations("TestGraph", isWeighted = false, isBidirectional = false),
             List(
                 Node(1, List(Edge(2, 0))),
@@ -139,7 +140,7 @@ class GraphOperationsSpec extends AnyFlatSpec with Matchers {
     }
 
     it should "not detect a cycle in a DAG" in {
-        val graph = Graph(
+        val graph = Graph[Int](
             GraphInformations("TestGraph", isWeighted = false, isBidirectional = false),
             List(
                 Node(1, List(Edge(2, 0))),
@@ -154,7 +155,7 @@ class GraphOperationsSpec extends AnyFlatSpec with Matchers {
     }
 
     it should "return false for a graph with disconnected components without cycles" in {
-        val graph = Graph(
+        val graph = Graph[Int](
             GraphInformations("TestGraph", isWeighted = false, isBidirectional = false),
             List(
                 Node(1, List(Edge(2, 0))),
@@ -168,8 +169,8 @@ class GraphOperationsSpec extends AnyFlatSpec with Matchers {
         result shouldBe false
     }
 
-    it should "returns false for a graph without nodes" in {
-        val graph = Graph(
+    it should "return false for a graph without nodes" in {
+        val graph = Graph[Int](
             GraphInformations("TestGraph", isWeighted = false, isBidirectional = false),
             List()
         )
@@ -179,7 +180,7 @@ class GraphOperationsSpec extends AnyFlatSpec with Matchers {
     }
 
     "topologicalSort" should "return a correct topological order for a simple acyclic graph" in {
-        val graph = Graph(
+        val graph = Graph[Int](
             GraphInformations("TestGraph", isWeighted = false, isBidirectional = false),
             List(
                 Node(1, List(Edge(2, 0), Edge(3, 0))),
@@ -194,7 +195,7 @@ class GraphOperationsSpec extends AnyFlatSpec with Matchers {
     }
 
     it should "return an empty List for a cyclic graph" in {
-        val graph = Graph(
+        val graph = Graph[Int](
             GraphInformations("TestGraph", isWeighted = false, isBidirectional = false),
             List(
                 Node(1, List(Edge(2, 0))),
@@ -208,7 +209,7 @@ class GraphOperationsSpec extends AnyFlatSpec with Matchers {
     }
 
     "floydWarshall" should "compute shortest paths for a simple weighted graph" in {
-        val graph = Graph(
+        val graph = Graph[Int](
             GraphInformations("TestGraph", isWeighted = true, isBidirectional = true),
             List(
                 Node(1, List(Edge(2, 1), Edge(3, 4))),
@@ -229,12 +230,12 @@ class GraphOperationsSpec extends AnyFlatSpec with Matchers {
             (2, 4) -> 3,
             (3, 3) -> 0,
             (3, 4) -> 1,
-            (4, 4) -> 0,
+            (4, 4) -> 0
         )
-  }
+    }
 
     it should "handle a graph with no edges correctly" in {
-        val graph = Graph(
+        val graph = Graph[Int](
             GraphInformations("TestGraph", isWeighted = true, isBidirectional = true),
             List(
                 Node(1, List()),
@@ -247,12 +248,12 @@ class GraphOperationsSpec extends AnyFlatSpec with Matchers {
         result shouldBe Map(
             (1, 1) -> 0,
             (2, 2) -> 0,
-            (3, 3) -> 0,
+            (3, 3) -> 0
         )
-  }
+    }
 
     "dijkstra" should "compute the shortest paths from the start node in a simple weighted graph" in {
-        val graph = Graph(
+        val graph = Graph[Int](
             GraphInformations("TestGraph", isWeighted = true, isBidirectional = false),
             List(
                 Node(1, List(Edge(2, 1), Edge(3, 4))),
@@ -272,7 +273,7 @@ class GraphOperationsSpec extends AnyFlatSpec with Matchers {
     }
 
     it should "return the shortest paths for a graph with disconnected components" in {
-        val graph = Graph(
+        val graph = Graph[Int](
             GraphInformations("TestGraph", isWeighted = true, isBidirectional = false),
             List(
                 Node(1, List(Edge(2, 1))),
@@ -287,7 +288,7 @@ class GraphOperationsSpec extends AnyFlatSpec with Matchers {
     }
 
     it should "handle graphs with positive cycles correctly" in {
-        val graph = Graph(
+        val graph = Graph[Int](
             GraphInformations("TestGraph", isWeighted = true, isBidirectional = false),
             List(
                 Node(1, List(Edge(2, 1))),

@@ -7,39 +7,38 @@ import scala.io.Source
 import scala.util._
 
 object GraphSerialization {
-    implicit val edgeDecoder: JsonDecoder[Edge] = DeriveJsonDecoder.gen[Edge]
-    implicit val edgeEncoder: JsonEncoder[Edge] = DeriveJsonEncoder.gen[Edge]
+    implicit def edgeDecoder[T: JsonDecoder]: JsonDecoder[Edge[T]] = DeriveJsonDecoder.gen[Edge[T]]
+    implicit def edgeEncoder[T: JsonEncoder]: JsonEncoder[Edge[T]] = DeriveJsonEncoder.gen[Edge[T]]
 
-    implicit val nodeDecoder: JsonDecoder[Node] = DeriveJsonDecoder.gen[Node]
-    implicit val nodeEncoder: JsonEncoder[Node] = DeriveJsonEncoder.gen[Node]
+    implicit def nodeDecoder[T: JsonDecoder]: JsonDecoder[Node[T]] = DeriveJsonDecoder.gen[Node[T]]
+    implicit def nodeEncoder[T: JsonEncoder]: JsonEncoder[Node[T]] = DeriveJsonEncoder.gen[Node[T]]
 
     implicit val graphInformationsDecoder: JsonDecoder[GraphInformations] = DeriveJsonDecoder.gen[GraphInformations]
     implicit val graphInformationsEncoder: JsonEncoder[GraphInformations] = DeriveJsonEncoder.gen[GraphInformations]
 
-    implicit val graphDecoder: JsonDecoder[Graph] = DeriveJsonDecoder.gen[Graph]
-    implicit val graphEncoder: JsonEncoder[Graph] = DeriveJsonEncoder.gen[Graph]
+    implicit def graphDecoder[T: JsonDecoder]: JsonDecoder[Graph[T]] = DeriveJsonDecoder.gen[Graph[T]]
+    implicit def graphEncoder[T: JsonEncoder]: JsonEncoder[Graph[T]] = DeriveJsonEncoder.gen[Graph[T]]
 
-    def toJSON(graph: Graph): String ={
+    def toJSON[T: JsonEncoder](graph: Graph[T]): String = {
         graph.toJsonPretty
     }
 
-    def fromJSON(json: String) : Either[String,Graph] = {
-        json.fromJson[Graph]
+    def fromJSON[T: JsonDecoder](json: String): Either[String, Graph[T]] = {
+        json.fromJson[Graph[T]]
     }
 
-    def writeToFile(graph: Graph, graphName: String): Unit = {
+    def writeToFile[T: JsonEncoder](graph: Graph[T], graphName: String): Unit = {
         val json = toJSON(graph)
         Using(new PrintWriter(new File(s"graph/${graphName}.json"))) { writer =>
             writer.write(json)
         }.getOrElse(throw new RuntimeException("Failed to write to file"))
     }
 
-    def readFromFile(graphName: String): Either[String, Graph] = {
+    def readFromFile[T: JsonDecoder](graphName: String): Either[String, Graph[T]] = {
         val source = Using(Source.fromFile(s"graph/${graphName}.json"))(_.mkString)
         source match {
-            case Failure(value) => Left("Graph not found")
+            case Failure(_) => Left("Graph not found")
             case Success(value) => fromJSON(value)
         }
     }
-
 }

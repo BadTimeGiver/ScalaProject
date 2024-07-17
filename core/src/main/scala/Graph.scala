@@ -2,17 +2,17 @@ package fr.scalaproject.core
 
 import java.io._
 
-case class Edge(to: Int, weight: Int)
-case class Node(id: Int, edges: List[Edge])
+case class Edge[T](to: T, weight: Int)
+case class Node[T](id: T, edges: List[Edge[T]])
 case class GraphInformations(name: String, isWeighted: Boolean, isBidirectional: Boolean)
 
-case class Graph(graphInformations: GraphInformations, nodes: List[Node]) {
-    private val nodeMap: Map[Int, Node] = nodes.map(node => node.id -> node).toMap
+case class Graph[T](graphInformations: GraphInformations, nodes: List[Node[T]]) {
+    private val nodeMap: Map[T, Node[T]] = nodes.map(node => node.id -> node).toMap
 
-    def hasVertex(startId: Int, endId: Int): Boolean = nodeMap(startId).edges.exists({ edge => edge.to == endId })
-    def hasNode(id: Int): Boolean = nodeMap.contains(id)
+    def hasVertex(startId: T, endId: T): Boolean = nodeMap(startId).edges.exists({ edge => edge.to == endId })
+    def hasNode(id: T): Boolean = nodeMap.contains(id)
 
-    def addVertex(id: Int): Graph = {
+    def addVertex(id: T): Graph[T] = {
         if (!nodeMap.contains(id)) {
             val newNode = Node(id, List())
             Graph(graphInformations, nodes :+ newNode)
@@ -21,17 +21,16 @@ case class Graph(graphInformations: GraphInformations, nodes: List[Node]) {
         }
     }
 
-    def addEdge(from: Int, to: Int, weight: Int = 1): Graph = {
+    def addEdge(from: T, to: T, weight: Int = 1): Graph[T] = {
         if (nodeMap.contains(from) && nodeMap.contains(to)) {
             val fromNode = nodeMap(from)
             val isAlreadyAdded = fromNode.edges.exists({ edge => edge.to == to })
-            if(isAlreadyAdded) {
+            if (isAlreadyAdded) {
                 this
             } else {
                 val updatedFromNode = fromNode.copy(edges = Edge(to, weight) :: fromNode.edges)
                 val updatedNodeMap = nodeMap.updated(from, updatedFromNode)
-                val finalNodeMap =
-                if (graphInformations.isBidirectional) {
+                val finalNodeMap = if (graphInformations.isBidirectional) {
                     val toNode = updatedNodeMap(to)
                     val updatedToNode = toNode.copy(edges = Edge(from, weight) :: toNode.edges)
                     updatedNodeMap.updated(to, updatedToNode)
@@ -46,7 +45,7 @@ case class Graph(graphInformations: GraphInformations, nodes: List[Node]) {
         }
     }
 
-    def removeVertex(id: Int): Graph = {
+    def removeVertex(id: T): Graph[T] = {
         val updatedNodeMap = nodeMap - id
         val finalNodeMap = updatedNodeMap.map {
             case (nodeId, node) => nodeId -> node.copy(edges = node.edges.filterNot(_.to == id))
@@ -54,7 +53,7 @@ case class Graph(graphInformations: GraphInformations, nodes: List[Node]) {
         Graph(graphInformations, finalNodeMap.values.toList)
     }
 
-    def removeEdge(from: Int, to: Int): Graph = {
+    def removeEdge(from: T, to: T): Graph[T] = {
         if (nodeMap.contains(from)) {
             val fromNode = nodeMap(from)
             val updatedFromNode = fromNode.copy(edges = fromNode.edges.filterNot(_.to == to))
@@ -72,4 +71,3 @@ case class Graph(graphInformations: GraphInformations, nodes: List[Node]) {
         }
     }
 }
-

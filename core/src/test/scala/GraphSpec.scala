@@ -6,7 +6,7 @@ import org.scalatest.matchers.should.Matchers
 class GraphSpec extends AnyFlatSpec with Matchers {
     /////////////////// -- ADD VERTEX TEST -- ///////////////////
     "Add Vertex" should "add vertex to graph" in {
-        val graph = new Graph(
+        val graph = Graph[Int](
             GraphInformations("TestGraph", isWeighted = false, isBidirectional = false),
             List(
                 Node(1, List(Edge(2, 0), Edge(3, 0))),
@@ -21,7 +21,7 @@ class GraphSpec extends AnyFlatSpec with Matchers {
     }
 
     it should "not add vertex if already contains" in {
-        val graph = new Graph(
+        val graph = Graph[Int](
             GraphInformations("TestGraph", isWeighted = false, isBidirectional = false),
             List(
                 Node(1, List(Edge(2, 0), Edge(3, 0))),
@@ -36,15 +36,14 @@ class GraphSpec extends AnyFlatSpec with Matchers {
     }
 
     it should "add vertex to an empty graph" in {
-        val graph = new Graph(GraphInformations("TestGraph", isWeighted = false, isBidirectional = false), List())
+        val graph = Graph[Int](GraphInformations("TestGraph", isWeighted = false, isBidirectional = false), List())
         val result = graph.addVertex(1)
         result.nodes.map(node => node.id) shouldBe List(1)
     }
 
-
     /////////////////// -- ADD EDGES TEST -- ///////////////////
     "Add Edge" should "add edge to a graph" in {
-        val graph = new Graph(
+        val graph = Graph[Int](
             GraphInformations("TestGraph", isWeighted = false, isBidirectional = false),
             List(
                 Node(1, List()),
@@ -58,7 +57,7 @@ class GraphSpec extends AnyFlatSpec with Matchers {
     }
 
     it should "not add edge if begin node doesn't exist" in {
-        val graph = new Graph(
+        val graph = Graph[Int](
             GraphInformations("TestGraph", isWeighted = false, isBidirectional = false),
             List(Node(1, List(Edge(2, 2))), Node(2, List()))
         )
@@ -69,7 +68,7 @@ class GraphSpec extends AnyFlatSpec with Matchers {
     }
 
     it should "not add edge if end node doesn't exist" in {
-        val graph = new Graph(
+        val graph = Graph[Int](
             GraphInformations("TestGraph", isWeighted = false, isBidirectional = false),
             List(Node(1, List(Edge(2, 2))), Node(2, List()))
         )
@@ -79,8 +78,8 @@ class GraphSpec extends AnyFlatSpec with Matchers {
         flattedEdgesList shouldBe List((1, 2, 2))
     }
 
-    it should "add edge to a graph if already present" in {
-        val graph = new Graph(
+    it should "not add edge to a graph if already present" in {
+        val graph = Graph[Int](
             GraphInformations("TestGraph", isWeighted = false, isBidirectional = false),
             List(Node(1, List(Edge(2, 2))), Node(2, List()))
         )
@@ -90,10 +89,9 @@ class GraphSpec extends AnyFlatSpec with Matchers {
         flattedEdgesList shouldBe List((1, 2, 2))
     }
 
-
     /////////////////// -- REMOVE VERTEX TEST -- ///////////////////
-    "Remove Vertex" should "Remove a vertex from a graph" in {
-        val graph = new Graph(
+    "Remove Vertex" should "remove a vertex from a graph" in {
+        val graph = Graph[Int](
             GraphInformations("TestGraph", isWeighted = false, isBidirectional = false),
             List(
                 Node(1, List(Edge(2, 0), Edge(3, 0))),
@@ -103,79 +101,79 @@ class GraphSpec extends AnyFlatSpec with Matchers {
         )
 
         val result = graph.removeVertex(3)
-        result shouldBe new Graph(
+        result shouldBe Graph[Int](
             GraphInformations("TestGraph", isWeighted = false, isBidirectional = false),
             List(Node(1, List(Edge(2, 0))), Node(2, List()))
         )
     }
 
-    it should "Not remove a vertex if not exists / already removed" in {
-        val graph = new Graph(
+    it should "not remove a vertex if not exists / already removed" in {
+        val graph = Graph[Int](
             GraphInformations("TestGraph", isWeighted = false, isBidirectional = false),
-            List(Node(1, List(Edge(2, 0), Edge(3, 0))),Node(2, List(Edge(3, 0))),Node(3, List(Edge(1, 0))))
+            List(Node(1, List(Edge(2, 0), Edge(3, 0))), Node(2, List(Edge(3, 0))), Node(3, List(Edge(1, 0))))
         )
 
         val result = graph.removeVertex(4)
-        result shouldBe new Graph(
+        result shouldBe Graph[Int](
             GraphInformations("TestGraph", isWeighted = false, isBidirectional = false),
             List(Node(1, List(Edge(2, 0), Edge(3, 0))), Node(2, List(Edge(3, 0))), Node(3, List(Edge(1, 0))))
         )
     }
 
-    it should "Not Remove in an empty graph" in {
-        val graph = new Graph(GraphInformations("TestGraph", isWeighted = false, isBidirectional = false), List())
+    it should "not remove in an empty graph" in {
+        val graph = Graph[Int](GraphInformations("TestGraph", isWeighted = false, isBidirectional = false), List())
         val result = graph.removeVertex(1)
-        result shouldBe new Graph(GraphInformations("TestGraph", isWeighted = false, isBidirectional = false), List())
+        result shouldBe Graph[Int](GraphInformations("TestGraph", isWeighted = false, isBidirectional = false), List())
     }
 
     /////////////////// -- REMOVE EDGE TEST -- ///////////////////
-    "Remove Edge" should "Remove Edge in a Graph" in {
-        val graph = new Graph(
+    "Remove Edge" should "remove an edge in a graph" in {
+        val graph = Graph[Int](
             GraphInformations("TestGraph", isWeighted = false, isBidirectional = false),
             List(Node(1, List(Edge(2, 0), Edge(3, 0))), Node(2, List(Edge(3, 0))), Node(3, List(Edge(1, 0))))
         )
 
         val result = graph.removeEdge(1, 2)
-        result shouldBe new Graph(
+        result shouldBe Graph[Int](
             GraphInformations("TestGraph", isWeighted = false, isBidirectional = false),
             List(Node(1, List(Edge(3, 0))), Node(2, List(Edge(3, 0))), Node(3, List(Edge(1, 0))))
         )
     }
 
-    it should "Not remove an edge if begin node does not exist" in {
-        val graph = new Graph(
+    it should "not remove an edge if begin node does not exist" in {
+        val graph = Graph[Int](
             GraphInformations("TestGraph", isWeighted = false, isBidirectional = false),
             List(Node(1, List(Edge(2, 0), Edge(3, 0))), Node(2, List(Edge(3, 0))), Node(3, List(Edge(1, 0))))
         )
 
         val result = graph.removeEdge(4, 2)
-        result shouldBe new Graph(
+        result shouldBe Graph[Int](
             GraphInformations("TestGraph", isWeighted = false, isBidirectional = false),
             List(Node(1, List(Edge(2, 0), Edge(3, 0))), Node(2, List(Edge(3, 0))), Node(3, List(Edge(1, 0))))
         )
     }
 
-    it should "Not remove an edge if end node does not exist" in {
-        val graph = new Graph(
+    it should "not remove an edge if end node does not exist" in {
+        val graph = Graph[Int](
             GraphInformations("TestGraph", isWeighted = false, isBidirectional = false),
             List(Node(1, List(Edge(2, 0), Edge(3, 0))), Node(2, List(Edge(3, 0))), Node(3, List(Edge(1, 0))))
         )
 
         val result = graph.removeEdge(2, 4)
-        result shouldBe new Graph(
+        result shouldBe Graph[Int](
             GraphInformations("TestGraph", isWeighted = false, isBidirectional = false),
             List(Node(1, List(Edge(2, 0), Edge(3, 0))), Node(2, List(Edge(3, 0))), Node(3, List(Edge(1, 0))))
         )
     }
 
-    it should "Not remove an edge if edge does not exist" in {
-        val graph = new Graph(
+    it should "not remove an edge if edge does not exist" in {
+        val graph = Graph[Int](
             GraphInformations("TestGraph", isWeighted = false, isBidirectional = false),
             List(Node(1, List(Edge(2, 0), Edge(3, 0))), Node(2, List(Edge(3, 0))), Node(3, List(Edge(1, 0))))
         )
 
         val result = graph.removeEdge(2, 1)
-        result shouldBe new Graph(
+        result shouldBe Graph[Int](
             GraphInformations("TestGraph", isWeighted = false, isBidirectional = false),
             List(Node(1, List(Edge(2, 0), Edge(3, 0))), Node(2, List(Edge(3, 0))), Node(3, List(Edge(1, 0))))
         )
