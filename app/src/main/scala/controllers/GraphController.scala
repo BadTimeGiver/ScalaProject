@@ -14,7 +14,7 @@ def displayGraphController(req: Request): Response = {
     } else {
         val finalGraphName = graphName.getOrElse("")
         GraphSerialization.readFromFile[String](finalGraphName) match {
-            case Right(value) => Response.json(s"Here is the graph ${finalGraphName} :\n${graphToDOT(value)}")
+            case Right(value) => Response.json(s"Here is the graph ${finalGraphName} :\n${value.toDOT}")
             case Left(value) => Response.json("The graph has not been found")
         }
     }
@@ -129,7 +129,7 @@ def removeEdgeController(req: Request): Response = {
     }
 }
 
-def createGraphController: Handler[Any, Response, Request, Response] = 
+def createGraphController: Handler[Any, Response, Request, Response] =
     Handler.fromFunctionZIO { req =>
         req.body.asString(Charsets.Utf8)
             .catchAll(_ => ZIO.succeed("Error reading request body"))
