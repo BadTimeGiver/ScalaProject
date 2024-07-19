@@ -11,7 +11,8 @@ object GraphVisualization {
             graph.nodes.foreach { node =>
                 sb.append(s"  ${node.id};\n")
                 node.edges.foreach { edge =>
-                    sb.append(s"  ${node.id} -> ${edge.to} [label=${edge.weight}];\n")
+                    val weightLabel = edge.weight.map(w => s" [label=$w]").getOrElse("")
+                    sb.append(s"  ${node.id} -> ${edge.to}$weightLabel;\n")
                 }
             }
 

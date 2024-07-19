@@ -1,6 +1,6 @@
 package fr.scalaproject.core
 
-import scala.collection.immutable.*
+import scala.collection.immutable._
 import scala.annotation.tailrec
 
 object GraphOperations {
@@ -66,13 +66,15 @@ object GraphOperations {
 
                 if (currentDist <= distances(currentId)) {
                     val (newDistances, newQueue) = currentNode.edges.foldLeft((distances, restQueue)) {
-                        case ((distAcc, queueAcc), Edge(neighborId, weight)) =>
+                        case ((distAcc, queueAcc), Edge(neighborId, Some(weight))) =>
                             val distance = currentDist + weight
                             if (distance < distAcc(neighborId)) {
                                 (distAcc.updated(neighborId, distance), queueAcc + ((neighborId, distance)))
                             } else {
                                 (distAcc, queueAcc)
                             }
+                        case ((distAcc, queueAcc), _) =>
+                            (distAcc, queueAcc)
                     }
                     loop(newDistances, newQueue)
                 } else {
@@ -90,7 +92,8 @@ object GraphOperations {
         val initialDistances = (for {
             id <- nodeIds
             edge <- nodeMap(id).edges
-        } yield ((id, edge.to) -> edge.weight)).toMap.withDefaultValue(Int.MaxValue)
+            weight <- edge.weight
+        } yield ((id, edge.to) -> weight)).toMap.withDefaultValue(Int.MaxValue)
 
         val distances = nodeIds.foldLeft(initialDistances) { (distances, id) =>
             distances.updated((id, id), 0)

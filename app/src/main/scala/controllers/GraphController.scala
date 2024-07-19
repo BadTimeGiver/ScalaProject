@@ -90,7 +90,7 @@ def addEdgeController(req: Request): Response = {
                 if (value.hasVertex(finalStartNode, finalEndNode)) {
                     Response.json("The edge already exists in the graph !")
                 } else {
-                    val finalGraph = value.addEdge(finalStartNode, finalEndNode, weight.getOrElse(0))
+                    val finalGraph = value.addEdge(finalStartNode, finalEndNode, weight)
                     GraphSerialization.writeToFile(finalGraph, finalGraphName)
                     Response.json("The graph has been succesfully updated !")
                 }

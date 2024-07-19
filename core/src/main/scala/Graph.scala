@@ -2,14 +2,15 @@ package fr.scalaproject.core
 
 import java.io._
 
-case class Edge[T](to: T, weight: Int)
+case class Edge[T](to: T, weight: Option[Int])
 case class Node[T](id: T, edges: List[Edge[T]])
+
 case class GraphInformations(name: String, isWeighted: Boolean, isBidirectional: Boolean)
 
 case class Graph[T](graphInformations: GraphInformations, nodes: List[Node[T]]) {
     private val nodeMap: Map[T, Node[T]] = nodes.map(node => node.id -> node).toMap
 
-    def hasVertex(startId: T, endId: T): Boolean = nodeMap(startId).edges.exists({ edge => edge.to == endId })
+    def hasVertex(startId: T, endId: T): Boolean = nodeMap(startId).edges.exists(edge => edge.to == endId)
     def hasNode(id: T): Boolean = nodeMap.contains(id)
 
     def addVertex(id: T): Graph[T] = {
@@ -21,10 +22,10 @@ case class Graph[T](graphInformations: GraphInformations, nodes: List[Node[T]]) 
         }
     }
 
-    def addEdge(from: T, to: T, weight: Int = 1): Graph[T] = {
+    def addEdge(from: T, to: T, weight: Option[Int] = Some(1)): Graph[T] = {
         if (nodeMap.contains(from) && nodeMap.contains(to)) {
             val fromNode = nodeMap(from)
-            val isAlreadyAdded = fromNode.edges.exists({ edge => edge.to == to })
+            val isAlreadyAdded = fromNode.edges.exists(edge => edge.to == to)
             if (isAlreadyAdded) {
                 this
             } else {
