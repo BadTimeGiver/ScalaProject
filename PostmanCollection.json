@@ -19,7 +19,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"graphInformations\" : {\n    \"name\" : \"TestGraph\",\n    \"isWeighted\" : false,\n    \"isBidirectional\" : false\n  },\n  \"nodes\" : [\n    {\n      \"id\" : 1,\n      \"edges\" : [\n        {\n          \"to\" : 2,\n          \"weight\" : 3\n        }\n      ]\n    },\n    {\n      \"id\" : 2,\n      \"edges\" : [\n        {\n          \"to\" : 1,\n          \"weight\" : 3\n        },\n        {\n          \"to\" : 3,\n          \"weight\" : 5\n        }\n      ]\n    },\n    {\n      \"id\" : 3,\n      \"edges\" : [\n        {\n          \"to\" : 1,\n          \"weight\" : 2\n        }\n      ]\n    }\n  ]\n}",
+									"raw": "{\n  \"graphInformations\" : {\n    \"name\" : \"TestGraph\",\n    \"isWeighted\" : false,\n    \"isBidirectional\" : false\n  },\n  \"nodes\" : [\n    {\n      \"id\" : \"1\",\n      \"edges\" : [\n        {\n          \"to\" : \"2\",\n          \"weight\" : 3\n        }\n      ]\n    },\n    {\n      \"id\" : \"2\",\n      \"edges\" : [\n        {\n          \"to\" : \"1\",\n          \"weight\" : 3\n        },\n        {\n          \"to\" : \"3\",\n          \"weight\" : 5\n        }\n      ]\n    },\n    {\n      \"id\" : \"3\",\n      \"edges\" : [\n        {\n          \"to\" : \"1\",\n          \"weight\" : 2\n        }\n      ]\n    }\n  ]\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -47,7 +47,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"graphInformations\" : {\n    \"name\" : \"TestGraph\",\n    \"isWeighted\" : \"false\",\n    \"isBidirectional\" : false\n  },\n  \"nodes\" : [\n    {\n      \"id\" : 1,\n      \"edges\" : [\n        {\n          \"to\" : 2,\n          \"weight\" : 3\n        }\n      ]\n    },\n    {\n      \"id\" : 2,\n      \"edges\" : [\n        {\n          \"to\" : 1,\n          \"weight\" : 3\n        },\n        {\n          \"to\" : 3,\n          \"weight\" : 5\n        }\n      ]\n    },\n    {\n      \"id\" : 3,\n      \"edges\" : [\n        {\n          \"to\" : 1,\n          \"weight\" : 2\n        }\n      ]\n    }\n  ]\n}",
+									"raw": "{\n  \"graphInformations\" : {\n    \"name\" : \"TestGraph\",\n    \"isWeighted\" : \"false\",\n    \"isBidirectional\" : false\n  },\n  \"nodes\" : [\n    {\n      \"id\" : \"1\",\n      \"edges\" : [\n        {\n          \"to\" : \"2\",\n          \"weight\" : 3\n        }\n      ]\n    },\n    {\n      \"id\" : \"2\",\n      \"edges\" : [\n        {\n          \"to\" : \"1\",\n          \"weight\" : 3\n        },\n        {\n          \"to\" : \"3\",\n          \"weight\" : 5\n        }\n      ]\n    },\n    {\n      \"id\" : \"3\",\n      \"edges\" : [\n        {\n          \"to\" : \"1\",\n          \"weight\" : 2\n        }\n      ]\n    }\n  ]\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -75,7 +75,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"graphInformations\" : {\n    \"name\" : \"\",\n    \"isWeighted\" : false,\n    \"isBidirectional\" : false\n  },\n  \"nodes\" : [\n    {\n      \"id\" : 1,\n      \"edges\" : [\n        {\n          \"to\" : 2,\n          \"weight\" : 3\n        }\n      ]\n    },\n    {\n      \"id\" : 2,\n      \"edges\" : [\n        {\n          \"to\" : 1,\n          \"weight\" : 3\n        },\n        {\n          \"to\" : 3,\n          \"weight\" : 5\n        }\n      ]\n    },\n    {\n      \"id\" : 3,\n      \"edges\" : [\n        {\n          \"to\" : 1,\n          \"weight\" : 2\n        }\n      ]\n    }\n  ]\n}",
+									"raw": "{\n  \"graphInformations\" : {\n    \"name\" : \"\",\n    \"isWeighted\" : false,\n    \"isBidirectional\" : false\n  },\n  \"nodes\" : [\n    {\n      \"id\" : \"1\",\n      \"edges\" : [\n        {\n          \"to\" : \"2\",\n          \"weight\" : 3\n        }\n      ]\n    },\n    {\n      \"id\" : \"2\",\n      \"edges\" : [\n        {\n          \"to\" : \"1\",\n          \"weight\" : 3\n        },\n        {\n          \"to\" : \"3\",\n          \"weight\" : 5\n        }\n      ]\n    },\n    {\n      \"id\" : \"3\",\n      \"edges\" : [\n        {\n          \"to\" : \"1\",\n          \"weight\" : 2\n        }\n      ]\n    }\n  ]\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -135,7 +135,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8084/display-graph?name=Test2",
+									"raw": "http://localhost:8084/display-graph?name=TestGraph",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -147,7 +147,7 @@
 									"query": [
 										{
 											"key": "name",
-											"value": "Test2"
+											"value": "TestGraph"
 										}
 									]
 								}
@@ -160,7 +160,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8084/display-graph?name=Test45&",
+									"raw": "http://localhost:8084/display-graph?name=Test45",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -176,7 +176,8 @@
 										},
 										{
 											"key": "",
-											"value": null
+											"value": null,
+											"disabled": true
 										}
 									]
 								}
@@ -213,7 +214,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8084/add-edge?startNode=2&name=Test2&endNode=1&weight=3",
+									"raw": "http://localhost:8084/add-edge?startNode=1&name=TestGraph&endNode=3&weight=3",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -225,15 +226,15 @@
 									"query": [
 										{
 											"key": "startNode",
-											"value": "2"
+											"value": "1"
 										},
 										{
 											"key": "name",
-											"value": "Test2"
+											"value": "TestGraph"
 										},
 										{
 											"key": "endNode",
-											"value": "1"
+											"value": "3"
 										},
 										{
 											"key": "weight",
@@ -255,7 +256,7 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8084/remove-edge?name=Test2&startNode=2&endNode=1",
+									"raw": "http://localhost:8084/remove-edge?name=TestGraph&startNode=1&endNode=3",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -267,15 +268,15 @@
 									"query": [
 										{
 											"key": "name",
-											"value": "Test2"
+											"value": "TestGraph"
 										},
 										{
 											"key": "startNode",
-											"value": "2"
+											"value": "1"
 										},
 										{
 											"key": "endNode",
-											"value": "1"
+											"value": "3"
 										}
 									]
 								}
@@ -288,10 +289,31 @@
 					"name": "Add vertex",
 					"item": [
 						{
-							"name": "New Request",
+							"name": "Add vertex",
 							"request": {
 								"method": "GET",
-								"header": []
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8084/add-vertex?name=TestGraph&newNode=4",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"add-vertex"
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "TestGraph"
+										},
+										{
+											"key": "newNode",
+											"value": "4"
+										}
+									]
+								}
 							},
 							"response": []
 						}
@@ -306,7 +328,7 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8084/remove-vertex?name=Test2&node=12",
+									"raw": "http://localhost:8084/remove-vertex?name=TestGraph&node=4",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -318,11 +340,11 @@
 									"query": [
 										{
 											"key": "name",
-											"value": "Test2"
+											"value": "TestGraph"
 										},
 										{
 											"key": "node",
-											"value": "12"
+											"value": "4"
 										}
 									]
 								}
@@ -335,7 +357,7 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8084/remove-vertex?name=Test45&node=12",
+									"raw": "http://localhost:8084/remove-vertex?name=TestGraphNotExists&node=4",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -347,11 +369,11 @@
 									"query": [
 										{
 											"key": "name",
-											"value": "Test45"
+											"value": "TestGraphNotExists"
 										},
 										{
 											"key": "node",
-											"value": "12"
+											"value": "4"
 										}
 									]
 								}
@@ -406,7 +428,7 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8084/remove-vertex?name=Test2&node=12",
+									"raw": "http://localhost:8084/remove-vertex?name=TestGraph&node=12",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -418,7 +440,7 @@
 									"query": [
 										{
 											"key": "name",
-											"value": "Test2"
+											"value": "TestGraph"
 										},
 										{
 											"key": "node",
@@ -435,7 +457,7 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8084/remove-vertex?name=Test2",
+									"raw": "http://localhost:8084/remove-vertex?name=TestGraph",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -446,13 +468,13 @@
 									],
 									"query": [
 										{
-											"key": "name",
-											"value": "Test2"
-										},
-										{
 											"key": "node",
 											"value": "12",
 											"disabled": true
+										},
+										{
+											"key": "name",
+											"value": "TestGraph"
 										}
 									]
 								}
@@ -475,7 +497,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8084/has_cycle?name=Test2",
+									"raw": "http://localhost:8084/has_cycle?name=TestGraph",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -487,7 +509,7 @@
 									"query": [
 										{
 											"key": "name",
-											"value": "Test2"
+											"value": "TestGraph"
 										}
 									]
 								}
@@ -500,7 +522,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8084/has_cycle?name=Test45",
+									"raw": "http://localhost:8084/has_cycle?name=TestGraphNotExists",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -512,7 +534,7 @@
 									"query": [
 										{
 											"key": "name",
-											"value": "Test45"
+											"value": "TestGraphNotExists"
 										}
 									]
 								}
@@ -557,7 +579,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8084/topological-sort?name=Tes",
+									"raw": "http://localhost:8084/topological-sort?name=TestGraph",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -569,7 +591,7 @@
 									"query": [
 										{
 											"key": "name",
-											"value": "Tes"
+											"value": "TestGraph"
 										}
 									]
 								}
@@ -638,7 +660,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8084/dijkstra?name=Test2&beginId=1",
+									"raw": "http://localhost:8084/dijkstra?name=TestGraph&beginId=1",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -650,7 +672,7 @@
 									"query": [
 										{
 											"key": "name",
-											"value": "Test2"
+											"value": "TestGraph"
 										},
 										{
 											"key": "beginId",
@@ -797,7 +819,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8084/bfs?name=Test2&beginId=1",
+									"raw": "http://localhost:8084/bfs?name=TestGraph&beginId=1",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -809,7 +831,7 @@
 									"query": [
 										{
 											"key": "name",
-											"value": "Test2"
+											"value": "TestGraph"
 										},
 										{
 											"key": "beginId",
@@ -826,7 +848,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8084/has_cycle?name=Test45&beginId=1",
+									"raw": "http://localhost:8084/has_cycle?name=TestGraphNotExists&beginId=1",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -838,7 +860,7 @@
 									"query": [
 										{
 											"key": "name",
-											"value": "Test45"
+											"value": "TestGraphNotExists"
 										},
 										{
 											"key": "beginId",
@@ -910,7 +932,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8084/bfs?name=Test2&beginId=45",
+									"raw": "http://localhost:8084/bfs?name=TestGraph&beginId=45",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -922,7 +944,7 @@
 									"query": [
 										{
 											"key": "name",
-											"value": "Test2"
+											"value": "TestGraph"
 										},
 										{
 											"key": "beginId",
@@ -956,7 +978,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8084/dfs?name=Test2&beginId=1",
+									"raw": "http://localhost:8084/dfs?name=TestGraph&beginId=1",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -968,7 +990,7 @@
 									"query": [
 										{
 											"key": "name",
-											"value": "Test2"
+											"value": "TestGraph"
 										},
 										{
 											"key": "beginId",
@@ -1039,7 +1061,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8084/dfs?name=Test2",
+									"raw": "http://localhost:8084/dfs?name=TestGraph",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1051,7 +1073,7 @@
 									"query": [
 										{
 											"key": "name",
-											"value": "Test2"
+											"value": "TestGraph"
 										}
 									]
 								}
@@ -1064,7 +1086,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8084/dfs?name=Test2&beginId=45",
+									"raw": "http://localhost:8084/dfs?name=TestGraph&beginId=45",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1076,7 +1098,7 @@
 									"query": [
 										{
 											"key": "name",
-											"value": "Test2"
+											"value": "TestGraph"
 										},
 										{
 											"key": "beginId",
@@ -1098,7 +1120,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8084/floyd-warshall?name=Test2",
+									"raw": "http://localhost:8084/floyd-warshall?name=TestGraph",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1110,7 +1132,7 @@
 									"query": [
 										{
 											"key": "name",
-											"value": "Test2"
+											"value": "TestGraph"
 										}
 									]
 								}
@@ -1123,7 +1145,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8084/has_cycle?name=Test45",
+									"raw": "http://localhost:8084/has_cycle?name=TestGraphNotExists",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1135,7 +1157,7 @@
 									"query": [
 										{
 											"key": "name",
-											"value": "Test45"
+											"value": "TestGraphNotExists"
 										}
 									]
 								}
