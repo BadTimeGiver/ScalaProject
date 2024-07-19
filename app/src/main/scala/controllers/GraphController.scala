@@ -141,7 +141,7 @@ def createGraphController: Handler[Any, Response, Request, Response] =
                     if (graphName.isEmpty) {
                         Response.json("A name is required")
                     } else {
-                        writeToFile(value, graphName)
+                        GraphSerialization.writeToFile(value, graphName)
                         Response.json("Graph successfully created")
                     }
             }

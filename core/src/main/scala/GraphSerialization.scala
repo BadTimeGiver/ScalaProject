@@ -27,11 +27,12 @@ object GraphSerialization {
         json.fromJson[Graph[T]]
     }
 
-    def writeToFile[T: JsonEncoder](graph: Graph[T], graphName: String): Unit = {
+    def writeToFile[T: JsonEncoder](graph: Graph[T], graphName: String): Either[Throwable, Unit] = {
         val json = toJSON(graph)
-        Using(new PrintWriter(new File(s"graph/${graphName}.json"))) { writer =>
+        val result = Using(new PrintWriter(new File(s"graph/${graphName}.json"))) { writer =>
             writer.write(json)
-        }.getOrElse(throw new RuntimeException("Failed to write to file"))
+        }
+        result.toEither
     }
 
     def readFromFile[T: JsonDecoder](graphName: String): Either[String, Graph[T]] = {
