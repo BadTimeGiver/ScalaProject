@@ -37,3 +37,26 @@ For running the unit test, you will need to do the following :
 ## Testing the app
 
 For that, you have a [Postman Collection file](./PostmanCollection.json) that can be used with Postman, and contains all the endpoint of our API.
+
+## Informations about the project
+
+### Test coverage
+
+For the Core subproject, we have made **33 unit tests**, and more precisally :
+__GraphSpec__ (14)
+- Add Vertex : 3
+- Add Edge : 4
+- Remove Vertex : 3
+- Remove Edge : 4
+
+__GraphOperationsSpec__ (19)
+- BFS : 4
+- DSF : 4
+- HasCycle : 4
+- TopologicalSort : 2
+- FloydWarshall : 2
+- Djikstra : 3
+
+We have made a lot of unit tests, and we think we've tested every case we can have on every feature asked.
+
+For the App subproject, we haven't made unit tests, but we've created a [Postman Collection file](./PostmanCollection.json).
