@@ -35,11 +35,9 @@ object GraphSerialization {
         result.toEither
     }
 
-    def readFromFile[T: JsonDecoder](graphName: String): Either[String, Graph[T]] = {
-        val source = Using(Source.fromFile(s"graph/${graphName}.json"))(_.mkString)
-        source match {
-            case Failure(_) => Left("Graph not found")
-            case Success(value) => fromJSON(value)
+    def readFromFile[T: JsonDecoder](graphName: String): Either[Throwable, Graph[T]] = {
+        Using(Source.fromFile(s"graph/${graphName}.json"))(_.mkString).toEither.flatMap { content =>
+            fromJSON[T](content).left.map(new RuntimeException(_))
         }
     }
 }
