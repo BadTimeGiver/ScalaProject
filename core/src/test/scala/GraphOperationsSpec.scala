@@ -9,9 +9,9 @@ class GraphOperationsSpec extends AnyFlatSpec with Matchers {
         val graph = Graph[Int](
             GraphInformations("TestGraph", isWeighted = false, isBidirectional = false),
             List(
-                Node(1, List(Edge(2, 0), Edge(3, 0))),
-                Node(2, List(Edge(4, 0))),
-                Node(3, List(Edge(4, 0))),
+                Node(1, List(Edge(2, Some(0)), Edge(3, Some(0)))),
+                Node(2, List(Edge(4, Some(0)))),
+                Node(3, List(Edge(4, Some(0)))),
                 Node(4, List())
             )
         )
@@ -24,10 +24,10 @@ class GraphOperationsSpec extends AnyFlatSpec with Matchers {
         val graph = Graph[Int](
             GraphInformations("TestGraph", isWeighted = false, isBidirectional = false),
             List(
-                Node(1, List(Edge(2, 0))),
-                Node(2, List(Edge(3, 0))),
+                Node(1, List(Edge(2, Some(0)))),
+                Node(2, List(Edge(3, Some(0)))),
                 Node(3, List()),
-                Node(4, List(Edge(5, 0))),
+                Node(4, List(Edge(5, Some(0)))),
                 Node(5, List())
             )
         )
@@ -40,9 +40,9 @@ class GraphOperationsSpec extends AnyFlatSpec with Matchers {
         val graph = Graph[Int](
             GraphInformations("TestGraph", isWeighted = false, isBidirectional = false),
             List(
-                Node(1, List(Edge(2, 0), Edge(3, 0))),
-                Node(2, List(Edge(4, 0))),
-                Node(3, List(Edge(1, 0))),
+                Node(1, List(Edge(2, Some(0)), Edge(3, Some(0)))),
+                Node(2, List(Edge(4, Some(0)))),
+                Node(3, List(Edge(1, Some(0)))),
                 Node(4, List())
             )
         )
@@ -55,8 +55,8 @@ class GraphOperationsSpec extends AnyFlatSpec with Matchers {
         val graph = Graph[Int](
             GraphInformations("TestGraph", isWeighted = false, isBidirectional = false),
             List(
-                Node(1, List(Edge(2, 0))),
-                Node(2, List(Edge(3, 0))),
+                Node(1, List(Edge(2, Some(0)))),
+                Node(2, List(Edge(3, Some(0)))),
                 Node(3, List())
             )
         )
@@ -69,9 +69,9 @@ class GraphOperationsSpec extends AnyFlatSpec with Matchers {
         val graph = Graph[Int](
             GraphInformations("TestGraph", isWeighted = false, isBidirectional = false),
             List(
-                Node(1, List(Edge(2, 0), Edge(3, 0))),
-                Node(2, List(Edge(4, 0))),
-                Node(3, List(Edge(4, 0))),
+                Node(1, List(Edge(2, Some(0)), Edge(3, Some(0)))),
+                Node(2, List(Edge(4, Some(0)))),
+                Node(3, List(Edge(4, Some(0)))),
                 Node(4, List())
             )
         )
@@ -84,10 +84,10 @@ class GraphOperationsSpec extends AnyFlatSpec with Matchers {
         val graph = Graph[Int](
             GraphInformations("TestGraph", isWeighted = false, isBidirectional = false),
             List(
-                Node(1, List(Edge(2, 0))),
-                Node(2, List(Edge(3, 0))),
+                Node(1, List(Edge(2, Some(0)))),
+                Node(2, List(Edge(3, Some(0)))),
                 Node(3, List()),
-                Node(4, List(Edge(5, 0))),
+                Node(4, List(Edge(5, Some(0)))),
                 Node(5, List())
             )
         )
@@ -100,9 +100,9 @@ class GraphOperationsSpec extends AnyFlatSpec with Matchers {
         val graph = Graph[Int](
             GraphInformations("TestGraph", isWeighted = false, isBidirectional = false),
             List(
-                Node(1, List(Edge(2, 0), Edge(3, 0))),
-                Node(2, List(Edge(4, 0))),
-                Node(3, List(Edge(1, 0))),
+                Node(1, List(Edge(2, Some(0)), Edge(3, Some(0)))),
+                Node(2, List(Edge(4, Some(0)))),
+                Node(3, List(Edge(1, Some(0)))),
                 Node(4, List())
             )
         )
@@ -115,8 +115,8 @@ class GraphOperationsSpec extends AnyFlatSpec with Matchers {
         val graph = Graph[Int](
             GraphInformations("TestGraph", isWeighted = false, isBidirectional = false),
             List(
-                Node(1, List(Edge(2, 0))),
-                Node(2, List(Edge(3, 0))),
+                Node(1, List(Edge(2, Some(0)))),
+                Node(2, List(Edge(3, Some(0)))),
                 Node(3, List())
             )
         )
@@ -129,9 +129,9 @@ class GraphOperationsSpec extends AnyFlatSpec with Matchers {
         val graph = Graph[Int](
             GraphInformations("TestGraph", isWeighted = false, isBidirectional = false),
             List(
-                Node(1, List(Edge(2, 0))),
-                Node(2, List(Edge(3, 0))),
-                Node(3, List(Edge(1, 0)))
+                Node(1, List(Edge(2, Some(0)))),
+                Node(2, List(Edge(3, Some(0)))),
+                Node(3, List(Edge(1, Some(0))))
             )
         )
 
@@ -143,9 +143,9 @@ class GraphOperationsSpec extends AnyFlatSpec with Matchers {
         val graph = Graph[Int](
             GraphInformations("TestGraph", isWeighted = false, isBidirectional = false),
             List(
-                Node(1, List(Edge(2, 0))),
-                Node(2, List(Edge(3, 0))),
-                Node(3, List(Edge(4, 0))),
+                Node(1, List(Edge(2, Some(0)))),
+                Node(2, List(Edge(3, Some(0)))),
+                Node(3, List(Edge(4, Some(0)))),
                 Node(4, List())
             )
         )
@@ -158,9 +158,9 @@ class GraphOperationsSpec extends AnyFlatSpec with Matchers {
         val graph = Graph[Int](
             GraphInformations("TestGraph", isWeighted = false, isBidirectional = false),
             List(
-                Node(1, List(Edge(2, 0))),
+                Node(1, List(Edge(2, Some(0)))),
                 Node(2, List()),
-                Node(3, List(Edge(4, 0))),
+                Node(3, List(Edge(4, Some(0)))),
                 Node(4, List())
             )
         )
@@ -183,9 +183,9 @@ class GraphOperationsSpec extends AnyFlatSpec with Matchers {
         val graph = Graph[Int](
             GraphInformations("TestGraph", isWeighted = false, isBidirectional = false),
             List(
-                Node(1, List(Edge(2, 0), Edge(3, 0))),
-                Node(2, List(Edge(4, 0))),
-                Node(3, List(Edge(4, 0))),
+                Node(1, List(Edge(2, Some(0)), Edge(3, Some(0)))),
+                Node(2, List(Edge(4, Some(0)))),
+                Node(3, List(Edge(4, Some(0)))),
                 Node(4, List())
             )
         )
@@ -198,9 +198,9 @@ class GraphOperationsSpec extends AnyFlatSpec with Matchers {
         val graph = Graph[Int](
             GraphInformations("TestGraph", isWeighted = false, isBidirectional = false),
             List(
-                Node(1, List(Edge(2, 0))),
-                Node(2, List(Edge(3, 0))),
-                Node(3, List(Edge(1, 0)))
+                Node(1, List(Edge(2, Some(0)))),
+                Node(2, List(Edge(3, Some(0)))),
+                Node(3, List(Edge(1, Some(0))))
             )
         )
 
@@ -212,9 +212,9 @@ class GraphOperationsSpec extends AnyFlatSpec with Matchers {
         val graph = Graph[Int](
             GraphInformations("TestGraph", isWeighted = true, isBidirectional = true),
             List(
-                Node(1, List(Edge(2, 1), Edge(3, 4))),
-                Node(2, List(Edge(3, 2), Edge(4, 5))),
-                Node(3, List(Edge(4, 1))),
+                Node(1, List(Edge(2, Some(1)), Edge(3, Some(4)))),
+                Node(2, List(Edge(3, Some(2)), Edge(4, Some(5)))),
+                Node(3, List(Edge(4, Some(1)))),
                 Node(4, List())
             )
         )
@@ -256,9 +256,9 @@ class GraphOperationsSpec extends AnyFlatSpec with Matchers {
         val graph = Graph[Int](
             GraphInformations("TestGraph", isWeighted = true, isBidirectional = false),
             List(
-                Node(1, List(Edge(2, 1), Edge(3, 4))),
-                Node(2, List(Edge(3, 2), Edge(4, 5))),
-                Node(3, List(Edge(4, 1))),
+                Node(1, List(Edge(2, Some(1)), Edge(3, Some(4)))),
+                Node(2, List(Edge(3, Some(2)), Edge(4, Some(5)))),
+                Node(3, List(Edge(4, Some(1)))),
                 Node(4, List())
             )
         )
@@ -276,9 +276,9 @@ class GraphOperationsSpec extends AnyFlatSpec with Matchers {
         val graph = Graph[Int](
             GraphInformations("TestGraph", isWeighted = true, isBidirectional = false),
             List(
-                Node(1, List(Edge(2, 1))),
+                Node(1, List(Edge(2, Some(1)))),
                 Node(2, List()),
-                Node(3, List(Edge(4, 2))),
+                Node(3, List(Edge(4, Some(2)))),
                 Node(4, List())
             )
         )
@@ -291,10 +291,10 @@ class GraphOperationsSpec extends AnyFlatSpec with Matchers {
         val graph = Graph[Int](
             GraphInformations("TestGraph", isWeighted = true, isBidirectional = false),
             List(
-                Node(1, List(Edge(2, 1))),
-                Node(2, List(Edge(3, 2))),
-                Node(3, List(Edge(1, 3))),
-                Node(4, List(Edge(3, 1)))
+                Node(1, List(Edge(2, Some(1)))),
+                Node(2, List(Edge(3, Some(2)))),
+                Node(3, List(Edge(1, Some(3)))),
+                Node(4, List(Edge(3, Some(1))))
             )
         )
 
